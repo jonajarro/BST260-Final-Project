@@ -12,7 +12,7 @@ library(dslabs)
 library(caret)
 ```
 
-#LR with one predictor 
+#Exploring data
 ```{r}
 data<- da36361.0001
 
@@ -62,7 +62,7 @@ sapply(predictors_factors, levels)
 install.packages("fastDummies")
 library(fastDummies)
 data_dummy<- data_prac
-data_dummy<- dummy_cols(data_dummy, select_columns= NULL)
+data_dummy<- dummy_cols(data_dummy, select_columns= c("NEWRACE2", "AGE2", "IRSEX", "INCOME", "EDUCCAT2", "WRKEDYR", "LIFANXD", "LIFDIAB", "LIFHBP"))
 
 ```
 
@@ -116,7 +116,7 @@ confusionMatrix(pre2, test_set$AMDEYR)$overall[["Accuracy"]]
 confusionMatrix(pre2, test_set$AMDEYR)
 ```
 
-```{r}
+```{r, eval=FALSE}
 #Creating a ROC and precision recall curve to assess different cut-offs 
 install.packages('ROCR')
 library(ROCR)
@@ -171,26 +171,7 @@ train_knn <- train(train_set[index, col_index], train_set$AMDEYR[index],
 train_knn
 ```
 
-
-
-
 ```{r}
-#Converting factor predictors
-data_dummy<- dummy_cols(data_dummy, select_columns="AGE2", "INCOME", "EDUCAT2", "CIG30USE", "ALCDAYS") 
-
-AGE_numeric<- as.numeric(as.character(AGE2))
-INCOME_numeric<- as.numeric(as.character(INCOME))
-EDUCAT2_numeric<- as.numeric(as.character(EDUCAT2))
-CIG30USE_numeric<- as.numeric(as.character(CIG330USE))
-ALCDAYS_numeric<- as.numeric(as.character(ALCDAYS))
-
-#Binary categorical vars
-IRSEX_numeric<-as.numeric(IRSEX)
-LIFEANXD_numeric<-as.numeric(LIFEANXD)
-LIFEDPRS_numeric<-as.numeric(LIFEDEPRS)
-LIFEDIAB_numeric<-as.numeric(LIFEDIAB)
-LIFEHBP_numeric<-as.numeric(LIFEHBP)
-
+saveRDS(train_set, file="train_set.RDS")
 ```
-
 
