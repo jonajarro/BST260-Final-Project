@@ -1,0 +1,196 @@
+---
+title: "NSDUH Final Project"
+author: "Jesse Osmar Najarro"
+date: "2022-12-06"
+output: github document
+---
+#Load in data and packages 
+```{r}
+load("/Users/jesse/Downloads/ICPSR_36361/DS0001/36361-0001-Data.rda")
+library(tidyverse)
+library(dslabs)
+library(caret)
+```
+
+#LR with one predictor 
+```{r}
+data<- da36361.0001
+
+#Exploring outcome var 
+unique(data$AMDEYR)
+#Need to make sure its a factor for regression and classification
+levels(data$AMDEYR) 
+summary(data$AMDEYR)
+
+#Renaming outcome var 
+levels(data$AMDEYR) <- c("Yes", "No")
+
+#Checking it went through
+summary(data$AMDEYR)
+
+#Checking our independent variable
+class(data$NEWRACE2)
+levels(data$NEWRACE2)
+summary(data$NEWRACE2)
+```
+
+
+```{r}
+#Preprocessing 
+
+#Drop AGE<18 categories
+`%notin%` <- Negate(`%in%`)
+data_prac <- data[data$AGE2 %notin% c("(01) Respondent is 12 years old", "(02) Respondent is 13 years old", "(03) Respondent is 14 years old", "(04) Respondent is 15 years old", "(05) Respondent is 16 years old", "(06) Respondent is 17 years old"), ]
+
+#Checking it all went throug
+data_prac$AGE2 <- factor(data_prac$AGE2)
+levels(data_prac$AGE2)
+
+#Making dummy variables out of the predictors 
+predictors <- data_prac|> select(AGE2, IRSEX, INCOME, EDUCCAT2, WRKEDYR, ALCDAYS, CIG30USE, LIFANXD, LIFDIAB, LIFHBP)
+
+#Find class of all predictors
+sapply(predictors, class)
+
+#Data frame of factor predictors 
+predictors_factors<- data_prac|> select(NEWRACE2, AGE2, IRSEX, INCOME, EDUCCAT2, WRKEDYR, LIFANXD, LIFDIAB, LIFHBP)
+
+#Levels of factor predictors 
+sapply(predictors_factors, levels)
+
+#Transform factor predictors to categorical 
+install.packages("fastDummies")
+library(fastDummies)
+data_dummy<- data_prac
+data_dummy<- dummy_cols(data_dummy, select_columns= NULL)
+
+```
+
+```{r}
+#Create data partition 
+set.seed(1990)
+y<- data_dummy$AMDEYR
+test_index <- createDataPartition(y, times = 1, p = 0.8, list = FALSE)
+train_set <- data_dummy |> slice(test_index)
+test_set <- data_dummy |> slice(-test_index)
+```
+
+
+```{r}
+#Training simple logistic regression model based on race/ethnicity alone 
+simple_model<- train_set|>glm(AMDEYR~NEWRACE2, data=_, family="binomial")
+
+#Training simple logistic regression model based on dummy race variables 
+simple_model2<- train_set|>glm(AMDEYR~`NEWRACE2_(1) NonHisp White`+`NEWRACE2_(2) NonHisp Black/Afr Am`+`NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`, data=_, family="binomial")
+
+#Getting OR 
+exp(coef(simple_model))
+exp(coef(simple_model2))
+
+#Training simple logisic regression model based on multiple predictors
+fit_glm_mp <- train_set |> glm(AMDEYR ~ NEWRACE2 + AGE2 + IRSEX + INCOME + EDUCCAT2 + CIG30USE + ALCDAYS + LIFANXD + LIFDEPRS + LIFDIAB + LIFHBP, data=_, family = "binomial")
+
+fit_glm_mpd <- train_set |> glm(AMDEYR ~ `NEWRACE2_(1) NonHisp White` + `NEWRACE2_(2) NonHisp Black/Afr Am`+ `NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`+ `AGE2_(07) Respondent is 18 years old`+`AGE2_(08) Respondent is 19 years old`+`AGE2_(09) Respondent is 20 years old`+`AGE2_(10) Respondent is 21 years old`+`AGE2_(11) Respondent is 22 or 23 years old`+`AGE2_(12) Respondent is 24 or 25 years old`+`AGE2_(13) Respondent is between 26 and 29 years old`+`AGE2_(14) Respondent is between 30 and 34 years old`+`AGE2_(15) Respondent is between 35 and 49 years old`+`AGE2_(16) Respondent is between 50 and 64 years old`+`AGE2_(17) Respondent is 65 years old or older`+ IRSEX+ `INCOME_(1) Less than $20,000`+`INCOME_(2) $20,000 - $49,999`+`INCOME_(3) $50,000 - $74,999`+`INCOME_(4) $75,000 or More`+`EDUCCAT2_(1) Less than high school (IREDUC2<=7 and AGE2>=7)`+`EDUCCAT2_(2) High school graduate (IREDUC2=8 and AGE2>=7)`+`EDUCCAT2_(3) Some college (IREDUC2=9-10 and AGE2>=7)`+`EDUCCAT2_(4) College graduate (IREDUC2=11 and AGE2>=7)`+`EDUCCAT2_(5) 12 to 17 year olds (AGE2<=6)`+CIG30USE+ALCDAYS+LIFANXD+ LIFDEPRS+LIFHBP+WRKEDYR, data=_, family="binomial")
+
+exp(coef(fit_glm_mp))
+exp(coef(fit_glm_mpd))
+                                
+```
+
+
+```{r}
+#Predicting simple model 
+p_hat_logit <- predict(simple_model, newdata = test_set, type = "response")
+head(p_hat_logit)
+
+pre1<-ifelse(p_hat_logit > 0.9152, "Yes", "No") |> factor()
+confusionMatrix(pre1, test_set$AMDEYR)$overall[["Accuracy"]]
+confusionMatrix(pre1, test_set$AMDEYR)
+
+#Predicting multiple predictor model 
+p_hat_glm_mp <- predict(fit_glm_mp, newdata= test_set, type="response")
+head(p_hat_glm_mp)
+
+pre2 <- ifelse(p_hat_glm_mp > 0.9152, "Yes", "No")|> factor()
+confusionMatrix(pre2, test_set$AMDEYR)$overall[["Accuracy"]]
+confusionMatrix(pre2, test_set$AMDEYR)
+```
+
+```{r}
+#Creating a ROC and precision recall curve to assess different cut-offs 
+install.packages('ROCR')
+library(ROCR)
+pred <- prediction(p_hat_logit, test_set$AMDEYR)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf, colorize=TRUE)
+
+install.packages("PRROC")
+library(PRROC)
+score1= p_hat_logit[train_set$AMDEYR=="Yes"]
+score0= p_hat_logit[train_set$AMDEYR=="No"]
+roc= roc.curve(score1, score0, curve = T)
+roc$auc
+
+pr= pr.curve(score1, score0, curve = T)
+pr
+plot(pr, main="In-sample PR curve")
+pr.test= pr.curve(score1.test, score0.test, curve = T)
+pr.test
+plot(pr.test, main="Out-of-sample PR curve")
+
+```
+
+#KNN (Predicting depression)
+
+```{r}
+#Pre-processing for knn 
+
+#Removing predictors with 0 variance 
+library(caret)
+nzv <- nearZeroVar(train_set)
+col_index <- setdiff(1:ncol(train_set), nzv)
+length(col_index)
+
+image(matrix(1:3136 %in% nzv, 56, 56))
+col_index <- setdiff(1:ncol(train_set), nzv)
+length(col_index)
+
+```
+
+```{r}
+#Performing KNN 
+n <- 8241
+b <- 5
+index <- sample(nrow(train_set), n)
+control <- trainControl(method = "cv", number = b, p = .9)
+train_knn <- train(train_set[index, col_index], train_set$AMDEYR[index], 
+                   method = "knn", 
+                   tuneGrid = data.frame(k = c(2:10)),
+                   trControl = control)
+
+train_knn
+```
+
+
+
+
+```{r}
+#Converting factor predictors
+data_dummy<- dummy_cols(data_dummy, select_columns="AGE2", "INCOME", "EDUCAT2", "CIG30USE", "ALCDAYS") 
+
+AGE_numeric<- as.numeric(as.character(AGE2))
+INCOME_numeric<- as.numeric(as.character(INCOME))
+EDUCAT2_numeric<- as.numeric(as.character(EDUCAT2))
+CIG30USE_numeric<- as.numeric(as.character(CIG330USE))
+ALCDAYS_numeric<- as.numeric(as.character(ALCDAYS))
+
+#Binary categorical vars
+IRSEX_numeric<-as.numeric(IRSEX)
+LIFEANXD_numeric<-as.numeric(LIFEANXD)
+LIFEDPRS_numeric<-as.numeric(LIFEDEPRS)
+LIFEDIAB_numeric<-as.numeric(LIFEDIAB)
+LIFEHBP_numeric<-as.numeric(LIFEHBP)
+
+```
+
+
