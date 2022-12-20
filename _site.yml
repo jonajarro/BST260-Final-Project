@@ -3,5 +3,7 @@ output_dir: "."
 navbar:
   title: "NSDUH Final Project"
   left:
-    - text: "Home"
+    - text: "Analysis"
       href: NSDUHFinalProject.html
+      text: "Report"
+      href: Final_Report.html

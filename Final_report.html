@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jesse Osmar Najarro" />
+
+<meta name="date" content="2022-12-20" />
+
+<title>Final_report</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">NSDUH Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="NSDUHFinalProject.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Final_report</h1>
+<h4 class="author">Jesse Osmar Najarro</h4>
+<h4 class="date">2022-12-20</h4>
+
+</div>
+
+
+<p>Introduction: The following project was created using data from the
+National Survey on Drug Use and Health (NSDUH) (2014), which is a U.S.
+national survey conducted in all 50 states and the District of Columbia
+to evaluate substance use and mental health. The two primary questions
+under investigation were 1) what is the association between depression
+in the last year according to race/ethnicity among individuals over 18
+years of age in the NSDUH 2014 data set and 2) can we predict depression
+using selected variables from the dataset. To assess the first question,
+a logistic regression analysis was used. Logistic regression is best
+suited for binary outcomes, which in this case was depression in the
+last year (yes/no), and can handle continuous and categorical
+predictors. For prediction analyses, k-nearest-neighbors (KNN) and
+random forest were used. KNN is a machine learning algorithm that finds
+the k nearest points and takes to the average of said points for our
+estimate of interest. A strength of KNN is that it is rather flexible
+and therefore can suitably capture the true conditional probability.
+Random forest is another machine learning algorithm that builds on
+decision trees by averaging multiple decision trees. As initial data
+exploration, I produced counts of my dependent and independent
+variables, recoding several of them (e.g., educational status, age). I
+also created a bar graph to visualize the count of depression in the
+last year by race/ethnicity. It is clear that the count of depression is
+highest among White individuals. This is due to the fact that this a
+predominantly White sample (60.7%). Lastly, a table 1 has been produced
+showing basic demographics of the sample by race/ethnicity.</p>
+<p>Results: I performed multiple logistic regression analyses with
+race/ethnicity as a single predictor, race/ethnicity as a dummy
+variable, and a fully-adjusted logistic regression model. Covariates in
+the fully-adjusted mode included, age, sex, educational status, income,
+whether someone worked in the past year, reporting lifetime anxiety,
+reporting lifetime high blood pressure, number of days consumed alcohol
+in the past 30 days, and number of days smoked cigarettes in the past 30
+days. Two forest plots were produced to show the odds of having
+depression in the last year across the different racial/ethnic groups.
+With White as the referent group, the first logistic regression analysis
+revealed that Native-American identifying individuals had an odds ratio
+1.66 with White as the referent group followed by non-Hispanic
+Black/African American individuals (1.41). Multiracial individuals had
+the lowest odds at 0.61. After fully adjusting for the above covariates,
+Native-Americans remained at highest risk of having depression in the
+last year with an odds ratio of 1.70. However, Hispanic individuals were
+found to have the next highest odds (1.36) followed by Black/African
+American individuals (1.11). These findings are mostly aligned with the
+literature on depression across minoritized groups. KNN and random
+forest were utilized to predict depression using the covariates adjusted
+for in the logistic regression model. To preprocess the data for KNN,
+the nearzerovar function was utilized to remove variables with zero
+variance (few unique values compared to sample or large ratio for most
+common to second most common value). A matrix graph entitled Zero
+Variance Predictors was produced to identify the most important
+predictors. Darker colors represent greater importance and lighter
+colors lesser importance. We see that important predictors are scattered
+all over. The number of neighbors tried in training our KNN algorithm
+ranged from 2 to 15. A graph was produced to show accuracy for number of
+neighbors tested. The graph shows us that the accuracy continues to
+increase as the number of neighbors increases. A confusion matrix
+reveals that the accuracy of this model at 83.5%, which is relatively
+strong. The specificity or ability to not predict a certain class when
+it is not that class is also strong at 97.5%. However, the sensitivity
+of this model is poor at 17.1%. For random forest, the range for number
+of variables to try before splitting was from 1 through 10. Another
+graph was produced to show the accuracy of the model based on mtry. This
+value peaks at 1 and then begins to decrease. Our model ends up with a
+better accuracy than KNN at 85.3%, but a much weaker sensitivity. The
+reason for this may be because random forest is better able to handle
+categorical variables, which were the only predictors selected for this
+analysis. An importance figure for the random forest analysis was also
+created. It suggests a more even distribution of important predictors
+than the previous matrix.</p>
+<pre><code>Conclusion: 
+This analysis indicates that Native-American followed by Hispanic and Black individuals are disproportionately affected by depression. These findings are unsurprising given that these race/ethnic groups face structural disadvantage in education, occupation, health insurance, housing, and food security. Machine learning algorithms utilized here suggests that the predictors of age, sex, educational status, income, whether someone worked in the past year, reporting lifetime anxiety, and reporting lifetime high blood pressure can accurately predict depression. Random forest was most adept at accurately predicting depression. This is most likely due to its flexibility with categorical variables. A limitation of this analysis is the small sample size. In the future, I would hope to work with a majority minority sample. Some additional areas for future analysis include running an ensemble, further preprocessing the data (e.g., through correlation, removing outliers), imputing missing data, and running KNN with more neighbors. </code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
