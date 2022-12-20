@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jesse Osmar Najarro" />
+
+<meta name="date" content="2022-12-06" />
+
+<title>NSDUH Final Project</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">NSDUH Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="NSDUHFinalProject.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">NSDUH Final Project</h1>
+<h4 class="author">Jesse Osmar Najarro</h4>
+<h4 class="date">2022-12-06</h4>
+
+</div>
+
+
+<p>#Load in data and packages</p>
+<pre class="r"><code>load(&quot;/Users/jesse/Downloads/ICPSR_36361/DS0001/36361-0001-Data.rda&quot;)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(dslabs)
+library(caret)</code></pre>
+<pre><code>## Loading required package: lattice
+## 
+## Attaching package: &#39;caret&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     lift</code></pre>
+<p>#Exploring data</p>
+<pre class="r"><code>data&lt;- da36361.0001
+
+#Exploring outcome var 
+unique(data$AMDEYR)</code></pre>
+<pre><code>## [1] (2) AMDELT=1 &amp; ADPB2WK=2       (1) Yes (AMDELT=1 &amp; ADPB2WK=1)
+## [3] &lt;NA&gt;                          
+## Levels: (1) Yes (AMDELT=1 &amp; ADPB2WK=1) (2) AMDELT=1 &amp; ADPB2WK=2</code></pre>
+<pre class="r"><code>#Need to make sure its a factor for regression and classification
+levels(data$AMDEYR) </code></pre>
+<pre><code>## [1] &quot;(1) Yes (AMDELT=1 &amp; ADPB2WK=1)&quot; &quot;(2) AMDELT=1 &amp; ADPB2WK=2&quot;</code></pre>
+<pre class="r"><code>summary(data$AMDEYR)</code></pre>
+<pre><code>## (1) Yes (AMDELT=1 &amp; ADPB2WK=1)       (2) AMDELT=1 &amp; ADPB2WK=2 
+##                           3186                          38019 
+##                           NA&#39;s 
+##                          14066</code></pre>
+<pre class="r"><code>#Renaming outcome var 
+levels(data$AMDEYR) &lt;- c(&quot;Yes&quot;, &quot;No&quot;)
+
+#Checking it went through
+summary(data$AMDEYR)</code></pre>
+<pre><code>##   Yes    No  NA&#39;s 
+##  3186 38019 14066</code></pre>
+<pre class="r"><code>#Checking our independent variable
+class(data$NEWRACE2)</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<pre class="r"><code>levels(data$NEWRACE2)</code></pre>
+<pre><code>## [1] &quot;(1) NonHisp White&quot;                   &quot;(2) NonHisp Black/Afr Am&quot;           
+## [3] &quot;(3) NonHisp Native Am/AK Native&quot;     &quot;(4) NonHisp Native HI/Other Pac Isl&quot;
+## [5] &quot;(5) NonHisp Asian&quot;                   &quot;(6) NonHisp more than one race&quot;     
+## [7] &quot;(7) Hispanic&quot;</code></pre>
+<pre class="r"><code>summary(data$NEWRACE2)</code></pre>
+<pre><code>##                   (1) NonHisp White            (2) NonHisp Black/Afr Am 
+##                               33534                                6693 
+##     (3) NonHisp Native Am/AK Native (4) NonHisp Native HI/Other Pac Isl 
+##                                 907                                 299 
+##                   (5) NonHisp Asian      (6) NonHisp more than one race 
+##                                2355                                1959 
+##                        (7) Hispanic 
+##                                9524</code></pre>
+<pre class="r"><code>#Preprocessing 
+
+#Drop AGE&lt;18 categories
+`%notin%` &lt;- Negate(`%in%`)
+data_prac &lt;- data[data$AGE2 %notin% c(&quot;(01) Respondent is 12 years old&quot;, &quot;(02) Respondent is 13 years old&quot;, &quot;(03) Respondent is 14 years old&quot;, &quot;(04) Respondent is 15 years old&quot;, &quot;(05) Respondent is 16 years old&quot;, &quot;(06) Respondent is 17 years old&quot;), ]
+
+data_prac &lt;- data[data$EDUCCAT2 %notin% c(&quot;(5) 12 to 17 year olds (AGE2&lt;=6)&quot;), ]
+
+#Checking it all went through
+data_prac$AGE2 &lt;- factor(data_prac$AGE2)
+levels(data_prac$AGE2)</code></pre>
+<pre><code>##  [1] &quot;(07) Respondent is 18 years old&quot;               
+##  [2] &quot;(08) Respondent is 19 years old&quot;               
+##  [3] &quot;(09) Respondent is 20 years old&quot;               
+##  [4] &quot;(10) Respondent is 21 years old&quot;               
+##  [5] &quot;(11) Respondent is 22 or 23 years old&quot;         
+##  [6] &quot;(12) Respondent is 24 or 25 years old&quot;         
+##  [7] &quot;(13) Respondent is between 26 and 29 years old&quot;
+##  [8] &quot;(14) Respondent is between 30 and 34 years old&quot;
+##  [9] &quot;(15) Respondent is between 35 and 49 years old&quot;
+## [10] &quot;(16) Respondent is between 50 and 64 years old&quot;
+## [11] &quot;(17) Respondent is 65 years old or older&quot;</code></pre>
+<pre class="r"><code>data_prac$EDUCCAT2 &lt;- factor(data_prac$EDUCCAT2)
+levels(data_prac$EDUCCAT2)</code></pre>
+<pre><code>## [1] &quot;(1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)&quot;
+## [2] &quot;(2) High school graduate (IREDUC2=8 and AGE2&gt;=7)&quot;  
+## [3] &quot;(3) Some college (IREDUC2=9-10 and AGE2&gt;=7)&quot;       
+## [4] &quot;(4) College graduate (IREDUC2=11 and AGE2&gt;=7)&quot;</code></pre>
+<pre class="r"><code>#Refactoring levels of AGE
+library(plyr)</code></pre>
+<pre><code>## ------------------------------------------------------------------------------</code></pre>
+<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)</code></pre>
+<pre><code>## ------------------------------------------------------------------------------</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     compact</code></pre>
+<pre class="r"><code>data_prac$AGE2 &lt;- revalue(data_prac$AGE2, c(&quot;(07) Respondent is 18 years old&quot; = &quot;(1) Respondent is 18 years old&quot;, &#39;(08) Respondent is 19 years old&#39; = &#39;(2) Respondent is 19 years old&#39;, &#39;(09) Respondent is 20 years old&#39; = &#39;(3) Respondent is 20 years old&#39;, &#39;(10) Respondent is 21 years old&#39;=&#39;(4) Respondent is 21 years old&#39;, &#39;(11) Respondent is 22 or 23 years old&#39;=&#39;(5) Respondent is 22 or 23 years old&#39;, &#39;(12) Respondent is 24 or 25 years old&#39;=&#39;(6) Respondent is 24 or 25 years old&#39;, &#39;(13) Respondent is between 26 and 29 years old&#39;=&#39;(7) Respondent is between 26 and 29 years old&#39;, &#39;(14) Respondent is between 30 and 34 years old&#39; = &#39;(8) Respondent is between 30 and 34 years old&#39;, &#39;(15) Respondent is between 35 and 49 years old&#39;= &#39;(9) Respondent is between 35 and 49 years old&#39;, &#39;(16) Respondent is between 50 and 64 years old&#39;=&#39;(10) Respondent is between 50 and 64 years old&#39;, &#39;(17) Respondent is 65 years old or older&#39;= &#39;(11) Respondent is 65 years old or older&#39;))
+
+#Checking it went through
+levels(data_prac$AGE2)</code></pre>
+<pre><code>##  [1] &quot;(1) Respondent is 18 years old&quot;                
+##  [2] &quot;(2) Respondent is 19 years old&quot;                
+##  [3] &quot;(3) Respondent is 20 years old&quot;                
+##  [4] &quot;(4) Respondent is 21 years old&quot;                
+##  [5] &quot;(5) Respondent is 22 or 23 years old&quot;          
+##  [6] &quot;(6) Respondent is 24 or 25 years old&quot;          
+##  [7] &quot;(7) Respondent is between 26 and 29 years old&quot; 
+##  [8] &quot;(8) Respondent is between 30 and 34 years old&quot; 
+##  [9] &quot;(9) Respondent is between 35 and 49 years old&quot; 
+## [10] &quot;(10) Respondent is between 50 and 64 years old&quot;
+## [11] &quot;(11) Respondent is 65 years old or older&quot;</code></pre>
+<pre class="r"><code>#Making dummy variables out of the predictors 
+predictors &lt;- data_prac|&gt; select(AGE2, IRSEX, INCOME, EDUCCAT2, WRKEDYR, ALCDAYS, CIG30USE, LIFANXD, LIFDIAB, LIFHBP)
+
+#Find class of all predictors
+sapply(predictors, class)</code></pre>
+<pre><code>##      AGE2     IRSEX    INCOME  EDUCCAT2   WRKEDYR   ALCDAYS  CIG30USE   LIFANXD 
+##  &quot;factor&quot;  &quot;factor&quot;  &quot;factor&quot;  &quot;factor&quot;  &quot;factor&quot; &quot;numeric&quot; &quot;numeric&quot;  &quot;factor&quot; 
+##   LIFDIAB    LIFHBP 
+##  &quot;factor&quot;  &quot;factor&quot;</code></pre>
+<pre class="r"><code>#Data frame of factor predictors 
+predictors_factors&lt;- data_prac|&gt; select(NEWRACE2, AGE2, IRSEX, INCOME, EDUCCAT2, WRKEDYR, LIFANXD, LIFDIAB, LIFHBP)
+
+#Levels of factor predictors 
+sapply(predictors_factors, levels)</code></pre>
+<pre><code>## $NEWRACE2
+## [1] &quot;(1) NonHisp White&quot;                   &quot;(2) NonHisp Black/Afr Am&quot;           
+## [3] &quot;(3) NonHisp Native Am/AK Native&quot;     &quot;(4) NonHisp Native HI/Other Pac Isl&quot;
+## [5] &quot;(5) NonHisp Asian&quot;                   &quot;(6) NonHisp more than one race&quot;     
+## [7] &quot;(7) Hispanic&quot;                       
+## 
+## $AGE2
+##  [1] &quot;(1) Respondent is 18 years old&quot;                
+##  [2] &quot;(2) Respondent is 19 years old&quot;                
+##  [3] &quot;(3) Respondent is 20 years old&quot;                
+##  [4] &quot;(4) Respondent is 21 years old&quot;                
+##  [5] &quot;(5) Respondent is 22 or 23 years old&quot;          
+##  [6] &quot;(6) Respondent is 24 or 25 years old&quot;          
+##  [7] &quot;(7) Respondent is between 26 and 29 years old&quot; 
+##  [8] &quot;(8) Respondent is between 30 and 34 years old&quot; 
+##  [9] &quot;(9) Respondent is between 35 and 49 years old&quot; 
+## [10] &quot;(10) Respondent is between 50 and 64 years old&quot;
+## [11] &quot;(11) Respondent is 65 years old or older&quot;      
+## 
+## $IRSEX
+## [1] &quot;(1) Male&quot;   &quot;(2) Female&quot;
+## 
+## $INCOME
+## [1] &quot;(1) Less than $20,000&quot; &quot;(2) $20,000 - $49,999&quot; &quot;(3) $50,000 - $74,999&quot;
+## [4] &quot;(4) $75,000 or More&quot;  
+## 
+## $EDUCCAT2
+## [1] &quot;(1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)&quot;
+## [2] &quot;(2) High school graduate (IREDUC2=8 and AGE2&gt;=7)&quot;  
+## [3] &quot;(3) Some college (IREDUC2=9-10 and AGE2&gt;=7)&quot;       
+## [4] &quot;(4) College graduate (IREDUC2=11 and AGE2&gt;=7)&quot;     
+## 
+## $WRKEDYR
+## [1] &quot;(1) Yes&quot; &quot;(2) No&quot; 
+## 
+## $LIFANXD
+## [1] &quot;(1) Response entered&quot;     &quot;(6) Response not entered&quot;
+## 
+## $LIFDIAB
+## [1] &quot;(1) Response entered&quot;     &quot;(6) Response not entered&quot;
+## 
+## $LIFHBP
+## [1] &quot;(1) Response entered&quot;     &quot;(6) Response not entered&quot;</code></pre>
+<pre class="r"><code>#Transform factor predictors to categorical 
+library(fastDummies)
+data_dummy&lt;- data_prac
+
+data_dummy&lt;- data_dummy[!is.na(data_dummy$AMDEYR),]
+data_dummy&lt;- data_dummy[!is.na(data_dummy$NEWRACE2),]
+
+data_dummy&lt;- data_dummy[!is.na(data_dummy$AGE2),]
+
+data_dummy&lt;- data_dummy[!is.na(data_dummy$IRSEX),]
+data_dummy&lt;- data_dummy[!is.na(data_dummy$INCOME),]
+data_dummy&lt;- data_dummy[!is.na(data_dummy$EDUCCAT2),]
+data_dummy&lt;- data_dummy[!is.na(data_dummy$WRKEDYR),]
+data_dummy&lt;- data_dummy[!is.na(data_dummy$LIFANXD),]
+data_dummy&lt;- data_dummy[!is.na(data_dummy$LIFHBP),]
+
+data_dummy&lt;- dummy_cols(data_dummy, select_columns= c(&quot;NEWRACE2&quot;, &quot;AGE2&quot;, &quot;IRSEX&quot;, &quot;INCOME&quot;, &quot;EDUCCAT2&quot;, &quot;WRKEDYR&quot;, &quot;LIFANXD&quot;, &quot;LIFDIAB&quot;, &quot;LIFHBP&quot;),ignore_na=TRUE)
+
+#Barplot 
+library(ggplot2)
+ggplot(data_dummy, aes(x=NEWRACE2, y=AMDEYR)) +geom_bar(stat=&quot;identity&quot;, fill=&quot;red&quot;) + ggtitle(&quot;Bar plot of depression by race/ethnicity&quot;)+ theme(axis.text.x = element_text(angle = 25, vjust = 0.8, hjust=1))+ylab(&quot;Depression Count&quot;) + theme(axis.title.x = element_text(hjust=1)) +  theme(axis.text.y=element_blank()) </code></pre>
+<p><img src="NSDUHFinalProject_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>#Table 1 
+library(tableone)
+vars&lt;- c(&quot;NEWRACE2&quot;, &quot;AGE2&quot;, &quot;IRSEX&quot;, &quot;INCOME&quot;, &quot;EDUCCAT2&quot;, &quot;WRKEDYR&quot;, &quot;LIFANXD&quot;, &quot;LIFDIAB&quot;, &quot;LIFHBP&quot;)
+tableOne &lt;- CreateTableOne(vars = vars, strata = c(&quot;NEWRACE2&quot;), data = data_dummy)
+tableOne</code></pre>
+<pre><code>##                                                        Stratified by NEWRACE2
+##                                                         (1) NonHisp White
+##   n                                                     4982             
+##   NEWRACE2 (%)                                                           
+##      (1) NonHisp White                                  4982 (100.0)     
+##      (2) NonHisp Black/Afr Am                              0 (  0.0)     
+##      (3) NonHisp Native Am/AK Native                       0 (  0.0)     
+##      (4) NonHisp Native HI/Other Pac Isl                   0 (  0.0)     
+##      (5) NonHisp Asian                                     0 (  0.0)     
+##      (6) NonHisp more than one race                        0 (  0.0)     
+##      (7) Hispanic                                          0 (  0.0)     
+##   AGE2 (%)                                                               
+##      (1) Respondent is 18 years old                      169 (  3.4)     
+##      (2) Respondent is 19 years old                      123 (  2.5)     
+##      (3) Respondent is 20 years old                      119 (  2.4)     
+##      (4) Respondent is 21 years old                      100 (  2.0)     
+##      (5) Respondent is 22 or 23 years old                239 (  4.8)     
+##      (6) Respondent is 24 or 25 years old                207 (  4.2)     
+##      (7) Respondent is between 26 and 29 years old       233 (  4.7)     
+##      (8) Respondent is between 30 and 34 years old       328 (  6.6)     
+##      (9) Respondent is between 35 and 49 years old       786 ( 15.8)     
+##      (10) Respondent is between 50 and 64 years old      896 ( 18.0)     
+##      (11) Respondent is 65 years old or older           1782 ( 35.8)     
+##   IRSEX = (2) Female (%)                                3095 ( 62.1)     
+##   INCOME (%)                                                             
+##      (1) Less than $20,000                              1492 ( 29.9)     
+##      (2) $20,000 - $49,999                              1775 ( 35.6)     
+##      (3) $50,000 - $74,999                               731 ( 14.7)     
+##      (4) $75,000 or More                                 984 ( 19.8)     
+##   EDUCCAT2 (%)                                                           
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  822 ( 16.5)     
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)   1754 ( 35.2)     
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)        1356 ( 27.2)     
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)      1050 ( 21.1)     
+##   WRKEDYR = (2) No (%)                                  3769 ( 75.7)     
+##   LIFANXD = (6) Response not entered (%)                3644 ( 73.1)     
+##   LIFDIAB = (6) Response not entered (%)                4213 ( 84.6)     
+##   LIFHBP = (6) Response not entered (%)                 3009 ( 60.4)     
+##                                                        Stratified by NEWRACE2
+##                                                         (2) NonHisp Black/Afr Am
+##   n                                                     986                     
+##   NEWRACE2 (%)                                                                  
+##      (1) NonHisp White                                    0 (  0.0)             
+##      (2) NonHisp Black/Afr Am                           986 (100.0)             
+##      (3) NonHisp Native Am/AK Native                      0 (  0.0)             
+##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)             
+##      (5) NonHisp Asian                                    0 (  0.0)             
+##      (6) NonHisp more than one race                       0 (  0.0)             
+##      (7) Hispanic                                         0 (  0.0)             
+##   AGE2 (%)                                                                      
+##      (1) Respondent is 18 years old                      55 (  5.6)             
+##      (2) Respondent is 19 years old                      37 (  3.8)             
+##      (3) Respondent is 20 years old                      31 (  3.1)             
+##      (4) Respondent is 21 years old                      25 (  2.5)             
+##      (5) Respondent is 22 or 23 years old                69 (  7.0)             
+##      (6) Respondent is 24 or 25 years old                50 (  5.1)             
+##      (7) Respondent is between 26 and 29 years old       52 (  5.3)             
+##      (8) Respondent is between 30 and 34 years old       67 (  6.8)             
+##      (9) Respondent is between 35 and 49 years old      205 ( 20.8)             
+##      (10) Respondent is between 50 and 64 years old     198 ( 20.1)             
+##      (11) Respondent is 65 years old or older           197 ( 20.0)             
+##   IRSEX = (2) Female (%)                                631 ( 64.0)             
+##   INCOME (%)                                                                    
+##      (1) Less than $20,000                              561 ( 56.9)             
+##      (2) $20,000 - $49,999                              295 ( 29.9)             
+##      (3) $50,000 - $74,999                               76 (  7.7)             
+##      (4) $75,000 or More                                 54 (  5.5)             
+##   EDUCCAT2 (%)                                                                  
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7) 262 ( 26.6)             
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)   401 ( 40.7)             
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)        232 ( 23.5)             
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       91 (  9.2)             
+##   WRKEDYR = (2) No (%)                                  712 ( 72.2)             
+##   LIFANXD = (6) Response not entered (%)                866 ( 87.8)             
+##   LIFDIAB = (6) Response not entered (%)                797 ( 80.8)             
+##   LIFHBP = (6) Response not entered (%)                 561 ( 56.9)             
+##                                                        Stratified by NEWRACE2
+##                                                         (3) NonHisp Native Am/AK Native
+##   n                                                     159                            
+##   NEWRACE2 (%)                                                                         
+##      (1) NonHisp White                                    0 (  0.0)                    
+##      (2) NonHisp Black/Afr Am                             0 (  0.0)                    
+##      (3) NonHisp Native Am/AK Native                    159 (100.0)                    
+##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)                    
+##      (5) NonHisp Asian                                    0 (  0.0)                    
+##      (6) NonHisp more than one race                       0 (  0.0)                    
+##      (7) Hispanic                                         0 (  0.0)                    
+##   AGE2 (%)                                                                             
+##      (1) Respondent is 18 years old                       4 (  2.5)                    
+##      (2) Respondent is 19 years old                       7 (  4.4)                    
+##      (3) Respondent is 20 years old                      12 (  7.5)                    
+##      (4) Respondent is 21 years old                       7 (  4.4)                    
+##      (5) Respondent is 22 or 23 years old                 9 (  5.7)                    
+##      (6) Respondent is 24 or 25 years old                 7 (  4.4)                    
+##      (7) Respondent is between 26 and 29 years old       10 (  6.3)                    
+##      (8) Respondent is between 30 and 34 years old       14 (  8.8)                    
+##      (9) Respondent is between 35 and 49 years old       37 ( 23.3)                    
+##      (10) Respondent is between 50 and 64 years old      32 ( 20.1)                    
+##      (11) Respondent is 65 years old or older            20 ( 12.6)                    
+##   IRSEX = (2) Female (%)                                 91 ( 57.2)                    
+##   INCOME (%)                                                                           
+##      (1) Less than $20,000                               83 ( 52.2)                    
+##      (2) $20,000 - $49,999                               54 ( 34.0)                    
+##      (3) $50,000 - $74,999                               12 (  7.5)                    
+##      (4) $75,000 or More                                 10 (  6.3)                    
+##   EDUCCAT2 (%)                                                                         
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  54 ( 34.0)                    
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    63 ( 39.6)                    
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         36 ( 22.6)                    
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)        6 (  3.8)                    
+##   WRKEDYR = (2) No (%)                                  112 ( 70.4)                    
+##   LIFANXD = (6) Response not entered (%)                129 ( 81.1)                    
+##   LIFDIAB = (6) Response not entered (%)                122 ( 76.7)                    
+##   LIFHBP = (6) Response not entered (%)                  96 ( 60.4)                    
+##                                                        Stratified by NEWRACE2
+##                                                         (4) NonHisp Native HI/Other Pac Isl
+##   n                                                     22                                 
+##   NEWRACE2 (%)                                                                             
+##      (1) NonHisp White                                   0 (  0.0)                         
+##      (2) NonHisp Black/Afr Am                            0 (  0.0)                         
+##      (3) NonHisp Native Am/AK Native                     0 (  0.0)                         
+##      (4) NonHisp Native HI/Other Pac Isl                22 (100.0)                         
+##      (5) NonHisp Asian                                   0 (  0.0)                         
+##      (6) NonHisp more than one race                      0 (  0.0)                         
+##      (7) Hispanic                                        0 (  0.0)                         
+##   AGE2 (%)                                                                                 
+##      (1) Respondent is 18 years old                      0 (  0.0)                         
+##      (2) Respondent is 19 years old                      0 (  0.0)                         
+##      (3) Respondent is 20 years old                      1 (  4.5)                         
+##      (4) Respondent is 21 years old                      2 (  9.1)                         
+##      (5) Respondent is 22 or 23 years old                1 (  4.5)                         
+##      (6) Respondent is 24 or 25 years old                0 (  0.0)                         
+##      (7) Respondent is between 26 and 29 years old       3 ( 13.6)                         
+##      (8) Respondent is between 30 and 34 years old       2 (  9.1)                         
+##      (9) Respondent is between 35 and 49 years old       5 ( 22.7)                         
+##      (10) Respondent is between 50 and 64 years old      4 ( 18.2)                         
+##      (11) Respondent is 65 years old or older            4 ( 18.2)                         
+##   IRSEX = (2) Female (%)                                12 ( 54.5)                         
+##   INCOME (%)                                                                               
+##      (1) Less than $20,000                              10 ( 45.5)                         
+##      (2) $20,000 - $49,999                               6 ( 27.3)                         
+##      (3) $50,000 - $74,999                               0 (  0.0)                         
+##      (4) $75,000 or More                                 6 ( 27.3)                         
+##   EDUCCAT2 (%)                                                                             
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  9 ( 40.9)                         
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    9 ( 40.9)                         
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         3 ( 13.6)                         
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       1 (  4.5)                         
+##   WRKEDYR = (2) No (%)                                  17 ( 77.3)                         
+##   LIFANXD = (6) Response not entered (%)                20 ( 90.9)                         
+##   LIFDIAB = (6) Response not entered (%)                19 ( 86.4)                         
+##   LIFHBP = (6) Response not entered (%)                 12 ( 54.5)                         
+##                                                        Stratified by NEWRACE2
+##                                                         (5) NonHisp Asian
+##   n                                                     162              
+##   NEWRACE2 (%)                                                           
+##      (1) NonHisp White                                    0 (  0.0)      
+##      (2) NonHisp Black/Afr Am                             0 (  0.0)      
+##      (3) NonHisp Native Am/AK Native                      0 (  0.0)      
+##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)      
+##      (5) NonHisp Asian                                  162 (100.0)      
+##      (6) NonHisp more than one race                       0 (  0.0)      
+##      (7) Hispanic                                         0 (  0.0)      
+##   AGE2 (%)                                                               
+##      (1) Respondent is 18 years old                       9 (  5.6)      
+##      (2) Respondent is 19 years old                       8 (  4.9)      
+##      (3) Respondent is 20 years old                      11 (  6.8)      
+##      (4) Respondent is 21 years old                       7 (  4.3)      
+##      (5) Respondent is 22 or 23 years old                10 (  6.2)      
+##      (6) Respondent is 24 or 25 years old                 7 (  4.3)      
+##      (7) Respondent is between 26 and 29 years old       11 (  6.8)      
+##      (8) Respondent is between 30 and 34 years old       12 (  7.4)      
+##      (9) Respondent is between 35 and 49 years old       17 ( 10.5)      
+##      (10) Respondent is between 50 and 64 years old      15 (  9.3)      
+##      (11) Respondent is 65 years old or older            55 ( 34.0)      
+##   IRSEX = (2) Female (%)                                103 ( 63.6)      
+##   INCOME (%)                                                             
+##      (1) Less than $20,000                               53 ( 32.7)      
+##      (2) $20,000 - $49,999                               35 ( 21.6)      
+##      (3) $50,000 - $74,999                               25 ( 15.4)      
+##      (4) $75,000 or More                                 49 ( 30.2)      
+##   EDUCCAT2 (%)                                                           
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  18 ( 11.1)      
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    35 ( 21.6)      
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         52 ( 32.1)      
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       57 ( 35.2)      
+##   WRKEDYR = (2) No (%)                                  118 ( 72.8)      
+##   LIFANXD = (6) Response not entered (%)                143 ( 88.3)      
+##   LIFDIAB = (6) Response not entered (%)                130 ( 80.2)      
+##   LIFHBP = (6) Response not entered (%)                 109 ( 67.3)      
+##                                                        Stratified by NEWRACE2
+##                                                         (6) NonHisp more than one race
+##   n                                                     280                           
+##   NEWRACE2 (%)                                                                        
+##      (1) NonHisp White                                    0 (  0.0)                   
+##      (2) NonHisp Black/Afr Am                             0 (  0.0)                   
+##      (3) NonHisp Native Am/AK Native                      0 (  0.0)                   
+##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)                   
+##      (5) NonHisp Asian                                    0 (  0.0)                   
+##      (6) NonHisp more than one race                     280 (100.0)                   
+##      (7) Hispanic                                         0 (  0.0)                   
+##   AGE2 (%)                                                                            
+##      (1) Respondent is 18 years old                      18 (  6.4)                   
+##      (2) Respondent is 19 years old                       9 (  3.2)                   
+##      (3) Respondent is 20 years old                      20 (  7.1)                   
+##      (4) Respondent is 21 years old                       8 (  2.9)                   
+##      (5) Respondent is 22 or 23 years old                22 (  7.9)                   
+##      (6) Respondent is 24 or 25 years old                14 (  5.0)                   
+##      (7) Respondent is between 26 and 29 years old       16 (  5.7)                   
+##      (8) Respondent is between 30 and 34 years old       18 (  6.4)                   
+##      (9) Respondent is between 35 and 49 years old       56 ( 20.0)                   
+##      (10) Respondent is between 50 and 64 years old      50 ( 17.9)                   
+##      (11) Respondent is 65 years old or older            49 ( 17.5)                   
+##   IRSEX = (2) Female (%)                                175 ( 62.5)                   
+##   INCOME (%)                                                                          
+##      (1) Less than $20,000                              117 ( 41.8)                   
+##      (2) $20,000 - $49,999                               93 ( 33.2)                   
+##      (3) $50,000 - $74,999                               28 ( 10.0)                   
+##      (4) $75,000 or More                                 42 ( 15.0)                   
+##   EDUCCAT2 (%)                                                                        
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  76 ( 27.1)                   
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    85 ( 30.4)                   
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         82 ( 29.3)                   
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       37 ( 13.2)                   
+##   WRKEDYR = (2) No (%)                                  195 ( 69.6)                   
+##   LIFANXD = (6) Response not entered (%)                199 ( 71.1)                   
+##   LIFDIAB = (6) Response not entered (%)                233 ( 83.2)                   
+##   LIFHBP = (6) Response not entered (%)                 187 ( 66.8)                   
+##                                                        Stratified by NEWRACE2
+##                                                         (7) Hispanic p     
+##   n                                                     898                
+##   NEWRACE2 (%)                                                       &lt;0.001
+##      (1) NonHisp White                                    0 (  0.0)        
+##      (2) NonHisp Black/Afr Am                             0 (  0.0)        
+##      (3) NonHisp Native Am/AK Native                      0 (  0.0)        
+##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)        
+##      (5) NonHisp Asian                                    0 (  0.0)        
+##      (6) NonHisp more than one race                       0 (  0.0)        
+##      (7) Hispanic                                       898 (100.0)        
+##   AGE2 (%)                                                           &lt;0.001
+##      (1) Respondent is 18 years old                      64 (  7.1)        
+##      (2) Respondent is 19 years old                      47 (  5.2)        
+##      (3) Respondent is 20 years old                      51 (  5.7)        
+##      (4) Respondent is 21 years old                      30 (  3.3)        
+##      (5) Respondent is 22 or 23 years old                62 (  6.9)        
+##      (6) Respondent is 24 or 25 years old                56 (  6.2)        
+##      (7) Respondent is between 26 and 29 years old       49 (  5.5)        
+##      (8) Respondent is between 30 and 34 years old       73 (  8.1)        
+##      (9) Respondent is between 35 and 49 years old      177 ( 19.7)        
+##      (10) Respondent is between 50 and 64 years old     139 ( 15.5)        
+##      (11) Respondent is 65 years old or older           150 ( 16.7)        
+##   IRSEX = (2) Female (%)                                588 ( 65.5)   0.312
+##   INCOME (%)                                                         &lt;0.001
+##      (1) Less than $20,000                              402 ( 44.8)        
+##      (2) $20,000 - $49,999                              317 ( 35.3)        
+##      (3) $50,000 - $74,999                               84 (  9.4)        
+##      (4) $75,000 or More                                 95 ( 10.6)        
+##   EDUCCAT2 (%)                                                       &lt;0.001
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7) 308 ( 34.3)        
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)   312 ( 34.7)        
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)        211 ( 23.5)        
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       67 (  7.5)        
+##   WRKEDYR = (2) No (%)                                  640 ( 71.3)   0.014
+##   LIFANXD = (6) Response not entered (%)                714 ( 79.5)  &lt;0.001
+##   LIFDIAB = (6) Response not entered (%)                708 ( 78.8)  &lt;0.001
+##   LIFHBP = (6) Response not entered (%)                 670 ( 74.6)  &lt;0.001
+##                                                        Stratified by NEWRACE2
+##                                                         test
+##   n                                                         
+##   NEWRACE2 (%)                                              
+##      (1) NonHisp White                                      
+##      (2) NonHisp Black/Afr Am                               
+##      (3) NonHisp Native Am/AK Native                        
+##      (4) NonHisp Native HI/Other Pac Isl                    
+##      (5) NonHisp Asian                                      
+##      (6) NonHisp more than one race                         
+##      (7) Hispanic                                           
+##   AGE2 (%)                                                  
+##      (1) Respondent is 18 years old                         
+##      (2) Respondent is 19 years old                         
+##      (3) Respondent is 20 years old                         
+##      (4) Respondent is 21 years old                         
+##      (5) Respondent is 22 or 23 years old                   
+##      (6) Respondent is 24 or 25 years old                   
+##      (7) Respondent is between 26 and 29 years old          
+##      (8) Respondent is between 30 and 34 years old          
+##      (9) Respondent is between 35 and 49 years old          
+##      (10) Respondent is between 50 and 64 years old         
+##      (11) Respondent is 65 years old or older               
+##   IRSEX = (2) Female (%)                                    
+##   INCOME (%)                                                
+##      (1) Less than $20,000                                  
+##      (2) $20,000 - $49,999                                  
+##      (3) $50,000 - $74,999                                  
+##      (4) $75,000 or More                                    
+##   EDUCCAT2 (%)                                              
+##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)     
+##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)       
+##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)            
+##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)          
+##   WRKEDYR = (2) No (%)                                      
+##   LIFANXD = (6) Response not entered (%)                    
+##   LIFDIAB = (6) Response not entered (%)                    
+##   LIFHBP = (6) Response not entered (%)</code></pre>
+<pre class="r"><code>#Create data partition 
+set.seed(1990)
+y&lt;- data_dummy$AMDEYR
+test_index &lt;- createDataPartition(y, times = 1, p = 0.8, list = FALSE)
+train_set &lt;- data_dummy |&gt; slice(test_index)
+test_set &lt;- data_dummy |&gt; slice(-test_index)</code></pre>
+<pre class="r"><code>#Training simple logistic regression model based on race/ethnicity alone 
+simple_model&lt;- train_set|&gt;glm(AMDEYR~NEWRACE2, data=_, family=&quot;binomial&quot;)
+
+#Training simple logisic regression model based on multiple predictors
+fit_glm_mp &lt;- train_set |&gt; glm(AMDEYR ~ NEWRACE2 + AGE2 + IRSEX + INCOME + EDUCCAT2 + CIG30USE + ALCDAYS + LIFANXD + LIFDEPRS + LIFDIAB + LIFHBP, data=_, family = &quot;binomial&quot;)
+
+#Getting OR 
+simple_model$coefficients&lt;-exp(simple_model$coefficients)
+
+#Getting OR 
+fit_glm_mp2&lt;- fit_glm_mp
+fit_glm_mp2$coefficients&lt;- exp((fit_glm_mp$coefficients[2:7]))</code></pre>
+<pre class="r"><code>#Training simple logistic regression model based on dummy race variables 
+simple_model2&lt;- train_set|&gt;glm(AMDEYR~`NEWRACE2_(1) NonHisp White`+`NEWRACE2_(2) NonHisp Black/Afr Am`+`NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`, data=_, family=&quot;binomial&quot;)
+
+#Getting OR 
+exp(coef(simple_model2))
+
+
+fit_glm_mpd &lt;- train_set |&gt; glm(AMDEYR ~ `NEWRACE2_(1) NonHisp White` + `NEWRACE2_(2) NonHisp Black/Afr Am`+ `NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`+ `AGE2_(1) Respondent is 18 years old`+ `AGE2_(2) Respondent is 19 years old`+`AGE2_(3) Respondent is 20 years old`+`AGE2_(4) Respondent is 21 years old`+`AGE2_(5) Respondent is 22 or 23 years old`+`AGE2_(6) Respondent is 24 or 25 years old`+`AGE2_(7) Respondent is between 26 and 29 years old`+ `AGE2_(8) Respondent is between 30 and 34 years old`+`AGE2_(9) Respondent is between 35 and 49 years old`+ `AGE2_(10) Respondent is between 50 and 64 years old`+ `AGE2_(11) Respondent is 65 years old or older`+ IRSEX+ `INCOME_(1) Less than $20,000`+`INCOME_(2) $20,000 - $49,999`+`INCOME_(3) $50,000 - $74,999`+`INCOME_(4) $75,000 or More`+`EDUCCAT2_(1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)`+`EDUCCAT2_(2) High school graduate (IREDUC2=8 and AGE2&gt;=7)`+`EDUCCAT2_(3) Some college (IREDUC2=9-10 and AGE2&gt;=7)`+`EDUCCAT2_(4) College graduate (IREDUC2=11 and AGE2&gt;=7)`+ CIG30USE+ALCDAYS+LIFANXD+ LIFDEPRS+LIFHBP+WRKEDYR, data=_, family=&quot;binomial&quot;)
+
+#Getting OR 
+exp(coef(fit_glm_mpd))</code></pre>
+<pre class="r"><code>library(sjPlot)</code></pre>
+<pre><code>## Install package &quot;strengejacke&quot; from GitHub (`devtools::install_github(&quot;strengejacke/strengejacke&quot;)`) to load all sj-packages at once!</code></pre>
+<pre class="r"><code>plot_model(simple_model, vline.color = &quot;Blue&quot;, title=&quot;Forest plot of depression according to race/ethnicity (unadjusted model)&quot;)</code></pre>
+<pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+<p><img src="NSDUHFinalProject_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>plot_model(fit_glm_mp2, vline.color = &quot;Blue&quot;, title=&quot;Forest plot of depression according to race/ethnicity (fully-adjusted model)&quot;)</code></pre>
+<p><img src="NSDUHFinalProject_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r"><code>#Predicting simple model 
+p_hat_logit &lt;- predict(simple_model, newdata = test_set, type = &quot;response&quot;)
+head(p_hat_logit)</code></pre>
+<pre><code>##         1         2         3         4         5         6 
+## 0.9962608 0.9962608 0.9962608 0.9962608 0.9962608 0.9962608</code></pre>
+<pre class="r"><code>pre1&lt;-ifelse(p_hat_logit &gt; 0.9152, &quot;Yes&quot;, &quot;No&quot;) |&gt; factor()
+confusionMatrix(pre1, test_set$AMDEYR)$overall[[&quot;Accuracy&quot;]]</code></pre>
+<pre><code>## Warning in confusionMatrix.default(pre1, test_set$AMDEYR): Levels are not in the
+## same order for reference and data. Refactoring data to match.</code></pre>
+<pre><code>## [1] 0.1462926</code></pre>
+<pre class="r"><code>confusionMatrix(pre1, test_set$AMDEYR)</code></pre>
+<pre><code>## Warning in confusionMatrix.default(pre1, test_set$AMDEYR): Levels are not in the
+## same order for reference and data. Refactoring data to match.</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  Yes   No
+##        Yes  219 1278
+##        No     0    0
+##                                           
+##                Accuracy : 0.1463          
+##                  95% CI : (0.1288, 0.1652)
+##     No Information Rate : 0.8537          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : 0               
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt;2e-16          
+##                                           
+##             Sensitivity : 1.0000          
+##             Specificity : 0.0000          
+##          Pos Pred Value : 0.1463          
+##          Neg Pred Value :    NaN          
+##              Prevalence : 0.1463          
+##          Detection Rate : 0.1463          
+##    Detection Prevalence : 1.0000          
+##       Balanced Accuracy : 0.5000          
+##                                           
+##        &#39;Positive&#39; Class : Yes             
+## </code></pre>
+<pre class="r"><code>#Predicting multiple predictor model 
+p_hat_glm_mp &lt;- predict(fit_glm_mp, newdata= test_set, type=&quot;response&quot;)
+head(p_hat_glm_mp)</code></pre>
+<pre><code>##         1         2         3         4         5         6 
+## 0.5824702        NA        NA        NA        NA        NA</code></pre>
+<pre class="r"><code>pre2 &lt;- ifelse(p_hat_glm_mp &gt; 0.9152, &quot;Yes&quot;, &quot;No&quot;)|&gt; factor()
+confusionMatrix(pre2, test_set$AMDEYR)$overall[[&quot;Accuracy&quot;]]</code></pre>
+<pre><code>## Warning in confusionMatrix.default(pre2, test_set$AMDEYR): Levels are not in the
+## same order for reference and data. Refactoring data to match.</code></pre>
+<pre><code>## [1] 0.4592275</code></pre>
+<pre class="r"><code>confusionMatrix(pre2, test_set$AMDEYR)</code></pre>
+<pre><code>## Warning in confusionMatrix.default(pre2, test_set$AMDEYR): Levels are not in the
+## same order for reference and data. Refactoring data to match.</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction Yes  No
+##        Yes   7  82
+##        No   44 100
+##                                          
+##                Accuracy : 0.4592         
+##                  95% CI : (0.394, 0.5255)
+##     No Information Rate : 0.7811         
+##     P-Value [Acc &gt; NIR] : 1.0000000      
+##                                          
+##                   Kappa : -0.247         
+##                                          
+##  Mcnemar&#39;s Test P-Value : 0.0009799      
+##                                          
+##             Sensitivity : 0.13725        
+##             Specificity : 0.54945        
+##          Pos Pred Value : 0.07865        
+##          Neg Pred Value : 0.69444        
+##              Prevalence : 0.21888        
+##          Detection Rate : 0.03004        
+##    Detection Prevalence : 0.38197        
+##       Balanced Accuracy : 0.34335        
+##                                          
+##        &#39;Positive&#39; Class : Yes            
+## </code></pre>
+<pre class="r"><code>#Creating a ROC and precision recall curve to assess different cut-offs 
+library(pROC)
+pred &lt;- prediction(p_hat_logit, test_set)
+test_roc = roc(test_set$AMDEYR ~ pred, plot = TRUE, print.auc = TRUE)
+
+install.packages(&quot;PRROC&quot;)
+library(PRROC)
+score1= p_hat_logit[train_set$AMDEYR==&quot;Yes&quot;]
+score0= p_hat_logit[train_set$AMDEYR==&quot;No&quot;]
+roc= roc.curve(score1, score0, curve = T)
+roc$auc
+
+pr= pr.curve(score1, score0, curve = T)
+pr
+plot(pr, main=&quot;In-sample PR curve&quot;)
+pr.test= pr.curve(score1.test, score0.test, curve = T)
+pr.test
+plot(pr.test, main=&quot;Out-of-sample PR curve&quot;)</code></pre>
+<p>#KNN (Predicting depression)</p>
+<pre class="r"><code>#Pre-processing for knn 
+
+#Removing predictors with 0 variance 
+library(caret)
+nzv &lt;- nearZeroVar(train_set)
+col_index &lt;- setdiff(1:ncol(train_set), nzv)
+length(col_index)</code></pre>
+<pre><code>## [1] 1795</code></pre>
+<pre class="r"><code>col_index2&lt;- col_index[c(1769:1795)]
+
+image(matrix(1:3136 %in% nzv, 56, 56))+title(main=&quot;Zero Variance Predictors&quot;)</code></pre>
+<p><img src="NSDUHFinalProject_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre><code>## integer(0)</code></pre>
+<pre class="r"><code>#Performing KNN 
+n &lt;- 1873
+b &lt;- 5
+index &lt;- sample(nrow(train_set), n)
+control &lt;- trainControl(method = &quot;cv&quot;, number = b, p = .9)
+train_knn &lt;- train(train_set[index, col_index2], train_set$AMDEYR[index], 
+                   method = &quot;knn&quot;, 
+                   tuneGrid = data.frame(k = c(2:15)),
+                   trControl = control)
+
+train_knn</code></pre>
+<pre><code>## k-Nearest Neighbors 
+## 
+## 1873 samples
+##   27 predictor
+##    2 classes: &#39;Yes&#39;, &#39;No&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 1499, 1498, 1499, 1498, 1498 
+## Resampling results across tuning parameters:
+## 
+##   k   Accuracy   Kappa     
+##    2  0.8275494  0.14887958
+##    3  0.8398360  0.12812151
+##    4  0.8430446  0.11666800
+##    5  0.8483822  0.11548988
+##    6  0.8489141  0.11384477
+##    7  0.8483807  0.08017309
+##    8  0.8473098  0.07341370
+##    9  0.8478460  0.06190008
+##   10  0.8467779  0.03731664
+##   11  0.8494446  0.05205489
+##   12  0.8489098  0.04662730
+##   13  0.8483750  0.03608944
+##   14  0.8489070  0.03677612
+##   15  0.8521141  0.04816991
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was k = 15.</code></pre>
+<pre class="r"><code>saveRDS(train_knn, file=&quot;train_knn_fp.RDS&quot;)
+plot(train_knn, main=&quot;Accuracy for number of neighbors tested&quot;)</code></pre>
+<p><img src="NSDUHFinalProject_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>fit_knn &lt;- knn3(train_set[, col_index2], train_set$AMDEYR,  k = 15)
+y_hat_knn &lt;- predict(fit_knn, train_set[, col_index2], type=&quot;class&quot;)
+cm &lt;- confusionMatrix(y_hat_knn, test_set$AMDEYR[test_index]) 
+cm$overall[&quot;Accuracy&quot;]</code></pre>
+<pre><code>##  Accuracy 
+## 0.8341709</code></pre>
+<pre class="r"><code>cm$byClass</code></pre>
+<pre><code>##          Sensitivity          Specificity       Pos Pred Value 
+##          0.017142857          0.974484789          0.103448276 
+##       Neg Pred Value            Precision               Recall 
+##          0.852360515          0.103448276          0.017142857 
+##                   F1           Prevalence       Detection Rate 
+##          0.029411765          0.146566164          0.002512563 
+## Detection Prevalence    Balanced Accuracy 
+##          0.024288107          0.495813823</code></pre>
+<pre class="r"><code>cm$table</code></pre>
+<pre><code>##           Reference
+## Prediction Yes  No
+##        Yes   3  26
+##        No  172 993</code></pre>
+<pre class="r"><code>#Perform RF 
+control &lt;- trainControl(method=&quot;cv&quot;, number = 5)
+grid &lt;- data.frame(mtry = c(1:10))
+
+train_rf &lt;-  train(train_set[, col_index2], train_set$AMDEYR, 
+                   method = &quot;rf&quot;, 
+                   ntree = 100,
+                   trControl = control,
+                   tuneGrid = grid,
+                   nSamp = 1000)
+train_rf</code></pre>
+<pre><code>## Random Forest 
+## 
+## 5992 samples
+##   27 predictor
+##    2 classes: &#39;Yes&#39;, &#39;No&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 4793, 4794, 4794, 4793, 4794 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa     
+##    1    0.8536383  0.00000000
+##    2    0.8536383  0.00000000
+##    3    0.8539733  0.06378176
+##    4    0.8544744  0.12197838
+##    5    0.8519717  0.16607011
+##    6    0.8471319  0.16245371
+##    7    0.8444608  0.18450397
+##    8    0.8421250  0.18351116
+##    9    0.8357836  0.17744615
+##   10    0.8339468  0.18001807
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was mtry = 4.</code></pre>
+<pre class="r"><code>plot(train_rf, main=&quot;Accuracy for number of predictors tested &quot;)</code></pre>
+<p><img src="NSDUHFinalProject_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>library(randomForest)</code></pre>
+<pre><code>## randomForest 4.7-1.1</code></pre>
+<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;randomForest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     margin</code></pre>
+<pre class="r"><code>fit_rf &lt;- randomForest(train_set[, col_index2], train_set$AMDEYR, 
+                       mtry = train_rf$bestTune$mtry)
+
+y_hat_rf &lt;- predict(fit_rf, train_set[ ,col_index2])
+cm2 &lt;- confusionMatrix(y_hat_rf, test_set$AMDEYR[test_index])
+cm2$overall[&quot;Accuracy&quot;]</code></pre>
+<pre><code>##  Accuracy 
+## 0.8433836</code></pre>
+<pre class="r"><code>cm2$byClass</code></pre>
+<pre><code>##          Sensitivity          Specificity       Pos Pred Value 
+##          0.051428571          0.979391560          0.300000000 
+##       Neg Pred Value            Precision               Recall 
+##          0.857388316          0.300000000          0.051428571 
+##                   F1           Prevalence       Detection Rate 
+##          0.087804878          0.146566164          0.007537688 
+## Detection Prevalence    Balanced Accuracy 
+##          0.025125628          0.515410066</code></pre>
+<pre class="r"><code>cm2$table</code></pre>
+<pre><code>##           Reference
+## Prediction Yes  No
+##        Yes   9  21
+##        No  166 998</code></pre>
+<pre class="r"><code>imp &lt;- importance(fit_rf)
+mat &lt;- rep(0, ncol(train_set))
+mat[col_index] &lt;- imp</code></pre>
+<pre><code>## Warning in mat[col_index] &lt;- imp: number of items to replace is not a multiple
+## of replacement length</code></pre>
+<pre class="r"><code>image(matrix(mat, 50, 50))+title(main=&quot;Importance Graph for Random Forest&quot;)</code></pre>
+<pre><code>## Warning in matrix(mat, 50, 50): data length [3184] is not a sub-multiple or
+## multiple of the number of rows [50]</code></pre>
+<p><img src="NSDUHFinalProject_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre><code>## integer(0)</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
