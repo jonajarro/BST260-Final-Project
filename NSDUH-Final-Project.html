@@ -245,7 +245,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="NSDUH Final Project.html">Home</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -458,252 +458,16 @@ data_dummy&lt;- data_dummy[!is.na(data_dummy$WRKEDYR),]
 data_dummy&lt;- data_dummy[!is.na(data_dummy$LIFANXD),]
 data_dummy&lt;- data_dummy[!is.na(data_dummy$LIFHBP),]
 
-data_dummy&lt;- dummy_cols(data_dummy, select_columns= c(&quot;NEWRACE2&quot;, &quot;AGE2&quot;, &quot;IRSEX&quot;, &quot;INCOME&quot;, &quot;EDUCCAT2&quot;, &quot;WRKEDYR&quot;, &quot;LIFANXD&quot;, &quot;LIFDIAB&quot;, &quot;LIFHBP&quot;),ignore_na=TRUE)</code></pre>
+data_dummy&lt;- dummy_cols(data_dummy, select_columns= c(&quot;NEWRACE2&quot;, &quot;AGE2&quot;, &quot;IRSEX&quot;, &quot;INCOME&quot;, &quot;EDUCCAT2&quot;, &quot;WRKEDYR&quot;, &quot;LIFANXD&quot;, &quot;LIFDIAB&quot;, &quot;LIFHBP&quot;),ignore_na=TRUE)
+
+#Barplot 
+library(ggplot2)
+ggplot(data_dummy, aes(x=NEWRACE2, y=AMDEYR)) +geom_bar(stat=&quot;identity&quot;, fill=&quot;red&quot;) + ggtitle(&quot;Bar plot of depression by race/ethnicity&quot;)+ theme(axis.text.x = element_text(angle = 25, vjust = 0.8, hjust=1))+ylab(&quot;Depression Count&quot;) + theme(axis.title.x = element_text(hjust=1)) +  theme(axis.text.y=element_blank()) </code></pre>
+<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>#Table 1 
 library(tableone)
-vars&lt;- c(&quot;AGE2&quot;, &quot;IRSEX&quot;, &quot;INCOME&quot;, &quot;EDUCCAT2&quot;, &quot;WRKEDYR&quot;, &quot;LIFANXD&quot;, &quot;LIFDIAB&quot;, &quot;LIFHBP&quot;)
-table &lt;- CreateTableOne(vars = vars, strata = c(&quot;NEWRACE2&quot;), data = data_dummy)
-table</code></pre>
-<pre><code>##                                                        Stratified by NEWRACE2
-##                                                         (1) NonHisp White
-##   n                                                     4982             
-##   AGE2 (%)                                                               
-##      (1) Respondent is 18 years old                      169 ( 3.4)      
-##      (2) Respondent is 19 years old                      123 ( 2.5)      
-##      (3) Respondent is 20 years old                      119 ( 2.4)      
-##      (4) Respondent is 21 years old                      100 ( 2.0)      
-##      (5) Respondent is 22 or 23 years old                239 ( 4.8)      
-##      (6) Respondent is 24 or 25 years old                207 ( 4.2)      
-##      (7) Respondent is between 26 and 29 years old       233 ( 4.7)      
-##      (8) Respondent is between 30 and 34 years old       328 ( 6.6)      
-##      (9) Respondent is between 35 and 49 years old       786 (15.8)      
-##      (10) Respondent is between 50 and 64 years old      896 (18.0)      
-##      (11) Respondent is 65 years old or older           1782 (35.8)      
-##   IRSEX = (2) Female (%)                                3095 (62.1)      
-##   INCOME (%)                                                             
-##      (1) Less than $20,000                              1492 (29.9)      
-##      (2) $20,000 - $49,999                              1775 (35.6)      
-##      (3) $50,000 - $74,999                               731 (14.7)      
-##      (4) $75,000 or More                                 984 (19.8)      
-##   EDUCCAT2 (%)                                                           
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  822 (16.5)      
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)   1754 (35.2)      
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)        1356 (27.2)      
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)      1050 (21.1)      
-##   WRKEDYR = (2) No (%)                                  3769 (75.7)      
-##   LIFANXD = (6) Response not entered (%)                3644 (73.1)      
-##   LIFDIAB = (6) Response not entered (%)                4213 (84.6)      
-##   LIFHBP = (6) Response not entered (%)                 3009 (60.4)      
-##                                                        Stratified by NEWRACE2
-##                                                         (2) NonHisp Black/Afr Am
-##   n                                                     986                     
-##   AGE2 (%)                                                                      
-##      (1) Respondent is 18 years old                      55 ( 5.6)              
-##      (2) Respondent is 19 years old                      37 ( 3.8)              
-##      (3) Respondent is 20 years old                      31 ( 3.1)              
-##      (4) Respondent is 21 years old                      25 ( 2.5)              
-##      (5) Respondent is 22 or 23 years old                69 ( 7.0)              
-##      (6) Respondent is 24 or 25 years old                50 ( 5.1)              
-##      (7) Respondent is between 26 and 29 years old       52 ( 5.3)              
-##      (8) Respondent is between 30 and 34 years old       67 ( 6.8)              
-##      (9) Respondent is between 35 and 49 years old      205 (20.8)              
-##      (10) Respondent is between 50 and 64 years old     198 (20.1)              
-##      (11) Respondent is 65 years old or older           197 (20.0)              
-##   IRSEX = (2) Female (%)                                631 (64.0)              
-##   INCOME (%)                                                                    
-##      (1) Less than $20,000                              561 (56.9)              
-##      (2) $20,000 - $49,999                              295 (29.9)              
-##      (3) $50,000 - $74,999                               76 ( 7.7)              
-##      (4) $75,000 or More                                 54 ( 5.5)              
-##   EDUCCAT2 (%)                                                                  
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7) 262 (26.6)              
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)   401 (40.7)              
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)        232 (23.5)              
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       91 ( 9.2)              
-##   WRKEDYR = (2) No (%)                                  712 (72.2)              
-##   LIFANXD = (6) Response not entered (%)                866 (87.8)              
-##   LIFDIAB = (6) Response not entered (%)                797 (80.8)              
-##   LIFHBP = (6) Response not entered (%)                 561 (56.9)              
-##                                                        Stratified by NEWRACE2
-##                                                         (3) NonHisp Native Am/AK Native
-##   n                                                     159                            
-##   AGE2 (%)                                                                             
-##      (1) Respondent is 18 years old                       4 ( 2.5)                     
-##      (2) Respondent is 19 years old                       7 ( 4.4)                     
-##      (3) Respondent is 20 years old                      12 ( 7.5)                     
-##      (4) Respondent is 21 years old                       7 ( 4.4)                     
-##      (5) Respondent is 22 or 23 years old                 9 ( 5.7)                     
-##      (6) Respondent is 24 or 25 years old                 7 ( 4.4)                     
-##      (7) Respondent is between 26 and 29 years old       10 ( 6.3)                     
-##      (8) Respondent is between 30 and 34 years old       14 ( 8.8)                     
-##      (9) Respondent is between 35 and 49 years old       37 (23.3)                     
-##      (10) Respondent is between 50 and 64 years old      32 (20.1)                     
-##      (11) Respondent is 65 years old or older            20 (12.6)                     
-##   IRSEX = (2) Female (%)                                 91 (57.2)                     
-##   INCOME (%)                                                                           
-##      (1) Less than $20,000                               83 (52.2)                     
-##      (2) $20,000 - $49,999                               54 (34.0)                     
-##      (3) $50,000 - $74,999                               12 ( 7.5)                     
-##      (4) $75,000 or More                                 10 ( 6.3)                     
-##   EDUCCAT2 (%)                                                                         
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  54 (34.0)                     
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    63 (39.6)                     
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         36 (22.6)                     
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)        6 ( 3.8)                     
-##   WRKEDYR = (2) No (%)                                  112 (70.4)                     
-##   LIFANXD = (6) Response not entered (%)                129 (81.1)                     
-##   LIFDIAB = (6) Response not entered (%)                122 (76.7)                     
-##   LIFHBP = (6) Response not entered (%)                  96 (60.4)                     
-##                                                        Stratified by NEWRACE2
-##                                                         (4) NonHisp Native HI/Other Pac Isl
-##   n                                                     22                                 
-##   AGE2 (%)                                                                                 
-##      (1) Respondent is 18 years old                      0 ( 0.0)                          
-##      (2) Respondent is 19 years old                      0 ( 0.0)                          
-##      (3) Respondent is 20 years old                      1 ( 4.5)                          
-##      (4) Respondent is 21 years old                      2 ( 9.1)                          
-##      (5) Respondent is 22 or 23 years old                1 ( 4.5)                          
-##      (6) Respondent is 24 or 25 years old                0 ( 0.0)                          
-##      (7) Respondent is between 26 and 29 years old       3 (13.6)                          
-##      (8) Respondent is between 30 and 34 years old       2 ( 9.1)                          
-##      (9) Respondent is between 35 and 49 years old       5 (22.7)                          
-##      (10) Respondent is between 50 and 64 years old      4 (18.2)                          
-##      (11) Respondent is 65 years old or older            4 (18.2)                          
-##   IRSEX = (2) Female (%)                                12 (54.5)                          
-##   INCOME (%)                                                                               
-##      (1) Less than $20,000                              10 (45.5)                          
-##      (2) $20,000 - $49,999                               6 (27.3)                          
-##      (3) $50,000 - $74,999                               0 ( 0.0)                          
-##      (4) $75,000 or More                                 6 (27.3)                          
-##   EDUCCAT2 (%)                                                                             
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  9 (40.9)                          
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    9 (40.9)                          
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         3 (13.6)                          
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       1 ( 4.5)                          
-##   WRKEDYR = (2) No (%)                                  17 (77.3)                          
-##   LIFANXD = (6) Response not entered (%)                20 (90.9)                          
-##   LIFDIAB = (6) Response not entered (%)                19 (86.4)                          
-##   LIFHBP = (6) Response not entered (%)                 12 (54.5)                          
-##                                                        Stratified by NEWRACE2
-##                                                         (5) NonHisp Asian
-##   n                                                     162              
-##   AGE2 (%)                                                               
-##      (1) Respondent is 18 years old                       9 ( 5.6)       
-##      (2) Respondent is 19 years old                       8 ( 4.9)       
-##      (3) Respondent is 20 years old                      11 ( 6.8)       
-##      (4) Respondent is 21 years old                       7 ( 4.3)       
-##      (5) Respondent is 22 or 23 years old                10 ( 6.2)       
-##      (6) Respondent is 24 or 25 years old                 7 ( 4.3)       
-##      (7) Respondent is between 26 and 29 years old       11 ( 6.8)       
-##      (8) Respondent is between 30 and 34 years old       12 ( 7.4)       
-##      (9) Respondent is between 35 and 49 years old       17 (10.5)       
-##      (10) Respondent is between 50 and 64 years old      15 ( 9.3)       
-##      (11) Respondent is 65 years old or older            55 (34.0)       
-##   IRSEX = (2) Female (%)                                103 (63.6)       
-##   INCOME (%)                                                             
-##      (1) Less than $20,000                               53 (32.7)       
-##      (2) $20,000 - $49,999                               35 (21.6)       
-##      (3) $50,000 - $74,999                               25 (15.4)       
-##      (4) $75,000 or More                                 49 (30.2)       
-##   EDUCCAT2 (%)                                                           
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  18 (11.1)       
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    35 (21.6)       
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         52 (32.1)       
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       57 (35.2)       
-##   WRKEDYR = (2) No (%)                                  118 (72.8)       
-##   LIFANXD = (6) Response not entered (%)                143 (88.3)       
-##   LIFDIAB = (6) Response not entered (%)                130 (80.2)       
-##   LIFHBP = (6) Response not entered (%)                 109 (67.3)       
-##                                                        Stratified by NEWRACE2
-##                                                         (6) NonHisp more than one race
-##   n                                                     280                           
-##   AGE2 (%)                                                                            
-##      (1) Respondent is 18 years old                      18 ( 6.4)                    
-##      (2) Respondent is 19 years old                       9 ( 3.2)                    
-##      (3) Respondent is 20 years old                      20 ( 7.1)                    
-##      (4) Respondent is 21 years old                       8 ( 2.9)                    
-##      (5) Respondent is 22 or 23 years old                22 ( 7.9)                    
-##      (6) Respondent is 24 or 25 years old                14 ( 5.0)                    
-##      (7) Respondent is between 26 and 29 years old       16 ( 5.7)                    
-##      (8) Respondent is between 30 and 34 years old       18 ( 6.4)                    
-##      (9) Respondent is between 35 and 49 years old       56 (20.0)                    
-##      (10) Respondent is between 50 and 64 years old      50 (17.9)                    
-##      (11) Respondent is 65 years old or older            49 (17.5)                    
-##   IRSEX = (2) Female (%)                                175 (62.5)                    
-##   INCOME (%)                                                                          
-##      (1) Less than $20,000                              117 (41.8)                    
-##      (2) $20,000 - $49,999                               93 (33.2)                    
-##      (3) $50,000 - $74,999                               28 (10.0)                    
-##      (4) $75,000 or More                                 42 (15.0)                    
-##   EDUCCAT2 (%)                                                                        
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)  76 (27.1)                    
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)    85 (30.4)                    
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)         82 (29.3)                    
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       37 (13.2)                    
-##   WRKEDYR = (2) No (%)                                  195 (69.6)                    
-##   LIFANXD = (6) Response not entered (%)                199 (71.1)                    
-##   LIFDIAB = (6) Response not entered (%)                233 (83.2)                    
-##   LIFHBP = (6) Response not entered (%)                 187 (66.8)                    
-##                                                        Stratified by NEWRACE2
-##                                                         (7) Hispanic p     
-##   n                                                     898                
-##   AGE2 (%)                                                           &lt;0.001
-##      (1) Respondent is 18 years old                      64 ( 7.1)         
-##      (2) Respondent is 19 years old                      47 ( 5.2)         
-##      (3) Respondent is 20 years old                      51 ( 5.7)         
-##      (4) Respondent is 21 years old                      30 ( 3.3)         
-##      (5) Respondent is 22 or 23 years old                62 ( 6.9)         
-##      (6) Respondent is 24 or 25 years old                56 ( 6.2)         
-##      (7) Respondent is between 26 and 29 years old       49 ( 5.5)         
-##      (8) Respondent is between 30 and 34 years old       73 ( 8.1)         
-##      (9) Respondent is between 35 and 49 years old      177 (19.7)         
-##      (10) Respondent is between 50 and 64 years old     139 (15.5)         
-##      (11) Respondent is 65 years old or older           150 (16.7)         
-##   IRSEX = (2) Female (%)                                588 (65.5)    0.312
-##   INCOME (%)                                                         &lt;0.001
-##      (1) Less than $20,000                              402 (44.8)         
-##      (2) $20,000 - $49,999                              317 (35.3)         
-##      (3) $50,000 - $74,999                               84 ( 9.4)         
-##      (4) $75,000 or More                                 95 (10.6)         
-##   EDUCCAT2 (%)                                                       &lt;0.001
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7) 308 (34.3)         
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)   312 (34.7)         
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)        211 (23.5)         
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)       67 ( 7.5)         
-##   WRKEDYR = (2) No (%)                                  640 (71.3)    0.014
-##   LIFANXD = (6) Response not entered (%)                714 (79.5)   &lt;0.001
-##   LIFDIAB = (6) Response not entered (%)                708 (78.8)   &lt;0.001
-##   LIFHBP = (6) Response not entered (%)                 670 (74.6)   &lt;0.001
-##                                                        Stratified by NEWRACE2
-##                                                         test
-##   n                                                         
-##   AGE2 (%)                                                  
-##      (1) Respondent is 18 years old                         
-##      (2) Respondent is 19 years old                         
-##      (3) Respondent is 20 years old                         
-##      (4) Respondent is 21 years old                         
-##      (5) Respondent is 22 or 23 years old                   
-##      (6) Respondent is 24 or 25 years old                   
-##      (7) Respondent is between 26 and 29 years old          
-##      (8) Respondent is between 30 and 34 years old          
-##      (9) Respondent is between 35 and 49 years old          
-##      (10) Respondent is between 50 and 64 years old         
-##      (11) Respondent is 65 years old or older               
-##   IRSEX = (2) Female (%)                                    
-##   INCOME (%)                                                
-##      (1) Less than $20,000                                  
-##      (2) $20,000 - $49,999                                  
-##      (3) $50,000 - $74,999                                  
-##      (4) $75,000 or More                                    
-##   EDUCCAT2 (%)                                              
-##      (1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)     
-##      (2) High school graduate (IREDUC2=8 and AGE2&gt;=7)       
-##      (3) Some college (IREDUC2=9-10 and AGE2&gt;=7)            
-##      (4) College graduate (IREDUC2=11 and AGE2&gt;=7)          
-##   WRKEDYR = (2) No (%)                                      
-##   LIFANXD = (6) Response not entered (%)                    
-##   LIFDIAB = (6) Response not entered (%)                    
-##   LIFHBP = (6) Response not entered (%)</code></pre>
+vars&lt;- c(&quot;NEWRACE2&quot;, &quot;AGE2&quot;, &quot;IRSEX&quot;, &quot;INCOME&quot;, &quot;EDUCCAT2&quot;, &quot;WRKEDYR&quot;, &quot;LIFANXD&quot;, &quot;LIFDIAB&quot;, &quot;LIFHBP&quot;)
+tableOne &lt;- CreateTableOne(vars = vars, strata = c(&quot;NEWRACE2&quot;), data = data_dummy)</code></pre>
 <pre class="r"><code>#Create data partition 
 set.seed(1990)
 y&lt;- data_dummy$AMDEYR
@@ -713,187 +477,69 @@ test_set &lt;- data_dummy |&gt; slice(-test_index)</code></pre>
 <pre class="r"><code>#Training simple logistic regression model based on race/ethnicity alone 
 simple_model&lt;- train_set|&gt;glm(AMDEYR~NEWRACE2, data=_, family=&quot;binomial&quot;)
 
-#Training simple logistic regression model based on dummy race variables 
+#Training simple logisic regression model based on multiple predictors
+fit_glm_mp &lt;- train_set |&gt; glm(AMDEYR ~ NEWRACE2 + AGE2 + IRSEX + INCOME + EDUCCAT2 + CIG30USE + ALCDAYS + LIFANXD + LIFDEPRS + LIFDIAB + LIFHBP, data=_, family = &quot;binomial&quot;)
+
+#Getting OR 
+simple_model$coefficients&lt;-exp(simple_model$coefficients)
+
+#Getting OR 
+fit_glm_mp2&lt;- fit_glm_mp
+fit_glm_mp2$coefficients&lt;- exp((fit_glm_mp$coefficients[2:7]))</code></pre>
+<pre class="r"><code>#Training simple logistic regression model based on dummy race variables 
 simple_model2&lt;- train_set|&gt;glm(AMDEYR~`NEWRACE2_(1) NonHisp White`+`NEWRACE2_(2) NonHisp Black/Afr Am`+`NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`, data=_, family=&quot;binomial&quot;)
 
 #Getting OR 
-exp(coef(simple_model))</code></pre>
-<pre><code>##                                 (Intercept) 
-##                                   5.5851240 
-##            NEWRACE2(2) NonHisp Black/Afr Am 
-##                                   1.4142706 
-##     NEWRACE2(3) NonHisp Native Am/AK Native 
-##                                   1.6561852 
-## NEWRACE2(4) NonHisp Native HI/Other Pac Isl 
-##                                   0.8952353 
-##                   NEWRACE2(5) NonHisp Asian 
-##                                   1.3249482 
-##      NEWRACE2(6) NonHisp more than one race 
-##                                   0.6108664 
-##                        NEWRACE2(7) Hispanic 
-##                                   1.0918360</code></pre>
-<pre class="r"><code>exp(coef(simple_model2))</code></pre>
-<pre><code>##                                    (Intercept) 
-##                                      6.0980392 
-##                   `NEWRACE2_(1) NonHisp White` 
-##                                      0.9158885 
-##            `NEWRACE2_(2) NonHisp Black/Afr Am` 
-##                                      1.2953141 
-##     `NEWRACE2_(3) NonHisp Native Am/AK Native` 
-##                                      1.5168810 
-## `NEWRACE2_(4) NonHisp Native HI/Other Pac Isl` 
-##                                      0.8199357 
-##                   `NEWRACE2_(5) NonHisp Asian` 
-##                                      1.2135048 
-##      `NEWRACE2_(6) NonHisp more than one race` 
-##                                      0.5594855 
-##                        `NEWRACE2_(7) Hispanic` 
-##                                             NA</code></pre>
-<pre class="r"><code>#Training simple logisic regression model based on multiple predictors
-fit_glm_mp &lt;- train_set |&gt; glm(AMDEYR ~ NEWRACE2 + AGE2 + IRSEX + INCOME + EDUCCAT2 + CIG30USE + ALCDAYS + LIFANXD + LIFDEPRS + LIFDIAB + LIFHBP, data=_, family = &quot;binomial&quot;)
+exp(coef(simple_model2))
+
 
 fit_glm_mpd &lt;- train_set |&gt; glm(AMDEYR ~ `NEWRACE2_(1) NonHisp White` + `NEWRACE2_(2) NonHisp Black/Afr Am`+ `NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`+ `AGE2_(1) Respondent is 18 years old`+ `AGE2_(2) Respondent is 19 years old`+`AGE2_(3) Respondent is 20 years old`+`AGE2_(4) Respondent is 21 years old`+`AGE2_(5) Respondent is 22 or 23 years old`+`AGE2_(6) Respondent is 24 or 25 years old`+`AGE2_(7) Respondent is between 26 and 29 years old`+ `AGE2_(8) Respondent is between 30 and 34 years old`+`AGE2_(9) Respondent is between 35 and 49 years old`+ `AGE2_(10) Respondent is between 50 and 64 years old`+ `AGE2_(11) Respondent is 65 years old or older`+ IRSEX+ `INCOME_(1) Less than $20,000`+`INCOME_(2) $20,000 - $49,999`+`INCOME_(3) $50,000 - $74,999`+`INCOME_(4) $75,000 or More`+`EDUCCAT2_(1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)`+`EDUCCAT2_(2) High school graduate (IREDUC2=8 and AGE2&gt;=7)`+`EDUCCAT2_(3) Some college (IREDUC2=9-10 and AGE2&gt;=7)`+`EDUCCAT2_(4) College graduate (IREDUC2=11 and AGE2&gt;=7)`+ CIG30USE+ALCDAYS+LIFANXD+ LIFDEPRS+LIFHBP+WRKEDYR, data=_, family=&quot;binomial&quot;)
 
-exp(coef(fit_glm_mp))</code></pre>
-<pre><code>##                                              (Intercept) 
-##                                                0.8176582 
-##                         NEWRACE2(2) NonHisp Black/Afr Am 
-##                                                1.1130811 
-##                  NEWRACE2(3) NonHisp Native Am/AK Native 
-##                                                1.6997259 
-##              NEWRACE2(4) NonHisp Native HI/Other Pac Isl 
-##                                                0.1235773 
-##                                NEWRACE2(5) NonHisp Asian 
-##                                                0.5584364 
-##                   NEWRACE2(6) NonHisp more than one race 
-##                                                0.9418078 
-##                                     NEWRACE2(7) Hispanic 
-##                                                1.3560742 
-##                       AGE2(2) Respondent is 19 years old 
-##                                                1.4501300 
-##                       AGE2(3) Respondent is 20 years old 
-##                                                1.7777980 
-##                       AGE2(4) Respondent is 21 years old 
-##                                                1.3628589 
-##                 AGE2(5) Respondent is 22 or 23 years old 
-##                                                1.1955791 
-##                 AGE2(6) Respondent is 24 or 25 years old 
-##                                                0.9451605 
-##        AGE2(7) Respondent is between 26 and 29 years old 
-##                                                2.0032014 
-##        AGE2(8) Respondent is between 30 and 34 years old 
-##                                                1.6720997 
-##        AGE2(9) Respondent is between 35 and 49 years old 
-##                                                0.7833734 
-##       AGE2(10) Respondent is between 50 and 64 years old 
-##                                                0.9426570 
-##             AGE2(11) Respondent is 65 years old or older 
-##                                                1.1474274 
-##                                          IRSEX(2) Female 
-##                                                0.9499285 
-##                              INCOME(2) $20,000 - $49,999 
-##                                                1.0731226 
-##                              INCOME(3) $50,000 - $74,999 
-##                                                1.9135422 
-##                                INCOME(4) $75,000 or More 
-##                                                1.0774324 
-## EDUCCAT2(2) High school graduate (IREDUC2=8 and AGE2&gt;=7) 
-##                                                0.8366885 
-##      EDUCCAT2(3) Some college (IREDUC2=9-10 and AGE2&gt;=7) 
-##                                                0.9311992 
-##    EDUCCAT2(4) College graduate (IREDUC2=11 and AGE2&gt;=7) 
-##                                                1.6484816 
-##                                                 CIG30USE 
-##                                                1.0072098 
-##                                                  ALCDAYS 
-##                                                1.0230186 
-##                          LIFANXD(6) Response not entered 
-##                                                2.8803023 
-##                         LIFDEPRS(6) Response not entered 
-##                                                5.0006448 
-##                          LIFDIAB(6) Response not entered 
-##                                                0.6560432 
-##                           LIFHBP(6) Response not entered 
-##                                                1.1427158</code></pre>
-<pre class="r"><code>exp(coef(fit_glm_mpd))</code></pre>
-<pre><code>##                                                   (Intercept) 
-##                                                    1.80942734 
-##                                  `NEWRACE2_(1) NonHisp White` 
-##                                                    0.71180699 
-##                           `NEWRACE2_(2) NonHisp Black/Afr Am` 
-##                                                    0.78838659 
-##                    `NEWRACE2_(3) NonHisp Native Am/AK Native` 
-##                                                    1.18042784 
-##                `NEWRACE2_(4) NonHisp Native HI/Other Pac Isl` 
-##                                                    0.08346936 
-##                                  `NEWRACE2_(5) NonHisp Asian` 
-##                                                    0.41748794 
-##                     `NEWRACE2_(6) NonHisp more than one race` 
-##                                                    0.69060140 
-##                                       `NEWRACE2_(7) Hispanic` 
-##                                                            NA 
-##                         `AGE2_(1) Respondent is 18 years old` 
-##                                                    0.75409265 
-##                         `AGE2_(2) Respondent is 19 years old` 
-##                                                    1.08159464 
-##                         `AGE2_(3) Respondent is 20 years old` 
-##                                                    1.33067840 
-##                         `AGE2_(4) Respondent is 21 years old` 
-##                                                    1.03503679 
-##                   `AGE2_(5) Respondent is 22 or 23 years old` 
-##                                                    0.90334856 
-##                   `AGE2_(6) Respondent is 24 or 25 years old` 
-##                                                    0.72097400 
-##          `AGE2_(7) Respondent is between 26 and 29 years old` 
-##                                                    1.56519261 
-##          `AGE2_(8) Respondent is between 30 and 34 years old` 
-##                                                    1.30511144 
-##          `AGE2_(9) Respondent is between 35 and 49 years old` 
-##                                                    0.63166903 
-##         `AGE2_(10) Respondent is between 50 and 64 years old` 
-##                                                    0.81908116 
-##               `AGE2_(11) Respondent is 65 years old or older` 
-##                                                            NA 
-##                                               IRSEX(2) Female 
-##                                                    0.95312306 
-##                                `INCOME_(1) Less than $20,000` 
-##                                                    0.96535814 
-##                                `INCOME_(2) $20,000 - $49,999` 
-##                                                    1.01647372 
-##                                `INCOME_(3) $50,000 - $74,999` 
-##                                                    1.78656424 
-##                                  `INCOME_(4) $75,000 or More` 
-##                                                            NA 
-## `EDUCCAT2_(1) Less than high school (IREDUC2&lt;=7 and AGE2&gt;=7)` 
-##                                                    0.63452848 
-##   `EDUCCAT2_(2) High school graduate (IREDUC2=8 and AGE2&gt;=7)` 
-##                                                    0.52587780 
-##        `EDUCCAT2_(3) Some college (IREDUC2=9-10 and AGE2&gt;=7)` 
-##                                                    0.57164576 
-##      `EDUCCAT2_(4) College graduate (IREDUC2=11 and AGE2&gt;=7)` 
-##                                                            NA 
-##                                                      CIG30USE 
-##                                                    1.00742672 
-##                                                       ALCDAYS 
-##                                                    1.02147451 
-##                               LIFANXD(6) Response not entered 
-##                                                    2.85708040 
-##                              LIFDEPRS(6) Response not entered 
-##                                                    4.96328713 
-##                                LIFHBP(6) Response not entered 
-##                                                    1.12424159 
-##                                                 WRKEDYR(2) No 
-##                                                    0.87965950</code></pre>
+#Getting OR 
+exp(coef(fit_glm_mpd))</code></pre>
+<pre class="r"><code>library(sjPlot)</code></pre>
+<pre><code>## Install package &quot;strengejacke&quot; from GitHub (`devtools::install_github(&quot;strengejacke/strengejacke&quot;)`) to load all sj-packages at once!</code></pre>
+<pre class="r"><code>plot_model(simple_model, vline.color = &quot;Blue&quot;, title=&quot;Forest plot of depression according to race/ethnicity (unadjusted model)&quot;)</code></pre>
+<pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>plot_model(fit_glm_mp2, vline.color = &quot;Blue&quot;, title=&quot;Forest plot of depression according to race/ethnicity (fully-adjusted model)&quot;)</code></pre>
+<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <pre class="r"><code>#Predicting simple model 
 p_hat_logit &lt;- predict(simple_model, newdata = test_set, type = &quot;response&quot;)
 head(p_hat_logit)</code></pre>
 <pre><code>##         1         2         3         4         5         6 
-## 0.8481426 0.8481426 0.8481426 0.8481426 0.8481426 0.8481426</code></pre>
+## 0.9962608 0.9962608 0.9962608 0.9962608 0.9962608 0.9962608</code></pre>
 <pre class="r"><code>pre1&lt;-ifelse(p_hat_logit &gt; 0.9152, &quot;Yes&quot;, &quot;No&quot;) |&gt; factor()
 confusionMatrix(pre1, test_set$AMDEYR)$overall[[&quot;Accuracy&quot;]]</code></pre>
 <pre><code>## Warning in confusionMatrix.default(pre1, test_set$AMDEYR): Levels are not in the
 ## same order for reference and data. Refactoring data to match.</code></pre>
-<pre><code>## [1] 0.8537074</code></pre>
+<pre><code>## [1] 0.1462926</code></pre>
 <pre class="r"><code>confusionMatrix(pre1, test_set$AMDEYR)</code></pre>
 <pre><code>## Warning in confusionMatrix.default(pre1, test_set$AMDEYR): Levels are not in the
 ## same order for reference and data. Refactoring data to match.</code></pre>
@@ -901,25 +547,25 @@ confusionMatrix(pre1, test_set$AMDEYR)$overall[[&quot;Accuracy&quot;]]</code></p
 ## 
 ##           Reference
 ## Prediction  Yes   No
-##        Yes    0    0
-##        No   219 1278
+##        Yes  219 1278
+##        No     0    0
 ##                                           
-##                Accuracy : 0.8537          
-##                  95% CI : (0.8348, 0.8712)
+##                Accuracy : 0.1463          
+##                  95% CI : (0.1288, 0.1652)
 ##     No Information Rate : 0.8537          
-##     P-Value [Acc &gt; NIR] : 0.518           
+##     P-Value [Acc &gt; NIR] : 1               
 ##                                           
 ##                   Kappa : 0               
 ##                                           
 ##  Mcnemar&#39;s Test P-Value : &lt;2e-16          
 ##                                           
-##             Sensitivity : 0.0000          
-##             Specificity : 1.0000          
-##          Pos Pred Value :    NaN          
-##          Neg Pred Value : 0.8537          
+##             Sensitivity : 1.0000          
+##             Specificity : 0.0000          
+##          Pos Pred Value : 0.1463          
+##          Neg Pred Value :    NaN          
 ##              Prevalence : 0.1463          
-##          Detection Rate : 0.0000          
-##    Detection Prevalence : 0.0000          
+##          Detection Rate : 0.1463          
+##    Detection Prevalence : 1.0000          
 ##       Balanced Accuracy : 0.5000          
 ##                                           
 ##        &#39;Positive&#39; Class : Yes             
@@ -964,15 +610,6 @@ confusionMatrix(pre2, test_set$AMDEYR)$overall[[&quot;Accuracy&quot;]]</code></p
 ##                                          
 ##        &#39;Positive&#39; Class : Yes            
 ## </code></pre>
-<pre class="r"><code>#Plot a LR 
-library(effects)</code></pre>
-<pre><code>## Loading required package: carData</code></pre>
-<pre><code>## Use the command
-##     lattice::trellis.par.set(effectsTheme())
-##   to customize lattice options for effects plots.
-## See ?effectsTheme for details.</code></pre>
-<pre class="r"><code>plot(allEffects(simple_model))</code></pre>
-<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>#Creating a ROC and precision recall curve to assess different cut-offs 
 library(pROC)
 pred &lt;- prediction(p_hat_logit, test_set)
@@ -1002,11 +639,9 @@ length(col_index)</code></pre>
 <pre><code>## [1] 1795</code></pre>
 <pre class="r"><code>col_index2&lt;- col_index[c(1769:1795)]
 
-image(matrix(1:3136 %in% nzv, 56, 56))</code></pre>
-<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<pre class="r"><code>col_index &lt;- setdiff(1:ncol(train_set), nzv)
-length(col_index)</code></pre>
-<pre><code>## [1] 1795</code></pre>
+image(matrix(1:3136 %in% nzv, 56, 56))+title(main=&quot;Zero Variance Predictors&quot;)</code></pre>
+<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre><code>## integer(0)</code></pre>
 <pre class="r"><code>#Performing KNN 
 n &lt;- 1873
 b &lt;- 5
@@ -1026,45 +661,50 @@ train_knn</code></pre>
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (5 fold) 
-## Summary of sample sizes: 1498, 1498, 1499, 1498, 1499 
+## Summary of sample sizes: 1499, 1498, 1499, 1498, 1498 
 ## Resampling results across tuning parameters:
 ## 
 ##   k   Accuracy   Kappa     
-##    2  0.8238146  0.16730568
-##    3  0.8344955  0.15896401
-##    4  0.8398317  0.16724176
-##    5  0.8441098  0.16059187
-##    6  0.8430446  0.14792211
-##    7  0.8419736  0.13478589
-##    8  0.8451765  0.13508333
-##    9  0.8430417  0.11474544
-##   10  0.8451765  0.12308943
-##   11  0.8473112  0.10906480
-##   12  0.8451736  0.09633663
-##   13  0.8478431  0.10321774
-##   14  0.8494417  0.11413655
-##   15  0.8489084  0.09307962
+##    2  0.8275494  0.14887958
+##    3  0.8398360  0.12812151
+##    4  0.8430446  0.11666800
+##    5  0.8483822  0.11548988
+##    6  0.8489141  0.11384477
+##    7  0.8483807  0.08017309
+##    8  0.8473098  0.07341370
+##    9  0.8478460  0.06190008
+##   10  0.8467779  0.03731664
+##   11  0.8494446  0.05205489
+##   12  0.8489098  0.04662730
+##   13  0.8483750  0.03608944
+##   14  0.8489070  0.03677612
+##   15  0.8521141  0.04816991
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
-## The final value used for the model was k = 14.</code></pre>
+## The final value used for the model was k = 15.</code></pre>
 <pre class="r"><code>saveRDS(train_knn, file=&quot;train_knn_fp.RDS&quot;)
 plot(train_knn, main=&quot;Accuracy for number of neighbors tested&quot;)</code></pre>
-<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<pre class="r"><code>fit_knn &lt;- knn3(train_set[, col_index2], train_set$AMDEYR,  k = 8)
+<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>fit_knn &lt;- knn3(train_set[, col_index2], train_set$AMDEYR,  k = 15)
 y_hat_knn &lt;- predict(fit_knn, train_set[, col_index2], type=&quot;class&quot;)
 cm &lt;- confusionMatrix(y_hat_knn, test_set$AMDEYR[test_index]) 
 cm$overall[&quot;Accuracy&quot;]</code></pre>
 <pre><code>##  Accuracy 
-## 0.8324958</code></pre>
+## 0.8341709</code></pre>
 <pre class="r"><code>cm$byClass</code></pre>
 <pre><code>##          Sensitivity          Specificity       Pos Pred Value 
-##          0.045714286          0.967615309          0.195121951 
+##          0.017142857          0.974484789          0.103448276 
 ##       Neg Pred Value            Precision               Recall 
-##          0.855160451          0.195121951          0.045714286 
+##          0.852360515          0.103448276          0.017142857 
 ##                   F1           Prevalence       Detection Rate 
-##          0.074074074          0.146566164          0.006700168 
+##          0.029411765          0.146566164          0.002512563 
 ## Detection Prevalence    Balanced Accuracy 
-##          0.034338358          0.506664797</code></pre>
+##          0.024288107          0.495813823</code></pre>
+<pre class="r"><code>cm$table</code></pre>
+<pre><code>##           Reference
+## Prediction Yes  No
+##        Yes   3  26
+##        No  172 993</code></pre>
 <pre class="r"><code>#Perform RF 
 control &lt;- trainControl(method=&quot;cv&quot;, number = 5)
 grid &lt;- data.frame(mtry = c(1:10))
@@ -1084,25 +724,25 @@ train_rf</code></pre>
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (5 fold) 
-## Summary of sample sizes: 4794, 4794, 4794, 4793, 4793 
+## Summary of sample sizes: 4793, 4794, 4794, 4793, 4794 
 ## Resampling results across tuning parameters:
 ## 
-##   mtry  Accuracy   Kappa    
-##    1    0.8536383  0.0000000
-##    2    0.8536383  0.0000000
-##    3    0.8543053  0.0544509
-##    4    0.8518015  0.1109774
-##    5    0.8489658  0.1580069
-##    6    0.8464623  0.1687286
-##    7    0.8409561  0.1673424
-##    8    0.8377851  0.1675176
-##    9    0.8351143  0.1669669
-##   10    0.8312747  0.1647836
+##   mtry  Accuracy   Kappa     
+##    1    0.8536383  0.00000000
+##    2    0.8536383  0.00000000
+##    3    0.8539733  0.06378176
+##    4    0.8544744  0.12197838
+##    5    0.8519717  0.16607011
+##    6    0.8471319  0.16245371
+##    7    0.8444608  0.18450397
+##    8    0.8421250  0.18351116
+##    9    0.8357836  0.17744615
+##   10    0.8339468  0.18001807
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
-## The final value used for the model was mtry = 3.</code></pre>
+## The final value used for the model was mtry = 4.</code></pre>
 <pre class="r"><code>plot(train_rf, main=&quot;Accuracy for number of predictors tested &quot;)</code></pre>
-<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <pre class="r"><code>library(randomForest)</code></pre>
 <pre><code>## randomForest 4.7-1.1</code></pre>
 <pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
@@ -1121,22 +761,31 @@ y_hat_rf &lt;- predict(fit_rf, train_set[ ,col_index2])
 cm2 &lt;- confusionMatrix(y_hat_rf, test_set$AMDEYR[test_index])
 cm2$overall[&quot;Accuracy&quot;]</code></pre>
 <pre><code>##  Accuracy 
-## 0.8500838</code></pre>
+## 0.8433836</code></pre>
 <pre class="r"><code>cm2$byClass</code></pre>
 <pre><code>##          Sensitivity          Specificity       Pos Pred Value 
-##          0.022857143          0.992149166          0.333333333 
+##          0.051428571          0.979391560          0.300000000 
 ##       Neg Pred Value            Precision               Recall 
-##          0.855329949          0.333333333          0.022857143 
+##          0.857388316          0.300000000          0.051428571 
 ##                   F1           Prevalence       Detection Rate 
-##          0.042780749          0.146566164          0.003350084 
+##          0.087804878          0.146566164          0.007537688 
 ## Detection Prevalence    Balanced Accuracy 
-##          0.010050251          0.507503154</code></pre>
+##          0.025125628          0.515410066</code></pre>
 <pre class="r"><code>cm2$table</code></pre>
 <pre><code>##           Reference
-## Prediction  Yes   No
-##        Yes    4    8
-##        No   171 1011</code></pre>
-<p>#Fiiting to the test set</p>
+## Prediction Yes  No
+##        Yes   9  21
+##        No  166 998</code></pre>
+<pre class="r"><code>imp &lt;- importance(fit_rf)
+mat &lt;- rep(0, ncol(train_set))
+mat[col_index] &lt;- imp</code></pre>
+<pre><code>## Warning in mat[col_index] &lt;- imp: number of items to replace is not a multiple
+## of replacement length</code></pre>
+<pre class="r"><code>image(matrix(mat, 50, 50))+title(main=&quot;Importance Graph for Random Forest&quot;)</code></pre>
+<pre><code>## Warning in matrix(mat, 50, 50): data length [3184] is not a sub-multiple or
+## multiple of the number of rows [50]</code></pre>
+<p><img src="NSDUH-Final-Project_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre><code>## integer(0)</code></pre>
 
 
 

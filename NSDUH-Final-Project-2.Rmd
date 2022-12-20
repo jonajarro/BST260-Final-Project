@@ -1,9 +1,10 @@
 ---
-title: "NSDUH Final Project"
+title: "NSDUH Final Project 2"
 author: "Jesse Osmar Najarro"
-date: "2022-12-06"
+date: "2022-12-20"
 output: html_document
 ---
+
 #Load in data and packages 
 ```{r}
 load("/Users/jesse/Downloads/ICPSR_36361/DS0001/36361-0001-Data.rda")
@@ -127,7 +128,7 @@ fit_glm_mp2<- fit_glm_mp
 fit_glm_mp2$coefficients<- exp((fit_glm_mp$coefficients[2:7]))
 ```
 
-```{r, eval=FALSE}
+```{r}
 #Training simple logistic regression model based on dummy race variables 
 simple_model2<- train_set|>glm(AMDEYR~`NEWRACE2_(1) NonHisp White`+`NEWRACE2_(2) NonHisp Black/Afr Am`+`NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`, data=_, family="binomial")
 
@@ -142,7 +143,7 @@ exp(coef(fit_glm_mpd))
                                 
 ```
 
-```{r}
+```{r, eval=FALSE}
 library(sjPlot)
 plot_model(simple_model, vline.color = "Blue", title="Forest plot of depression according to race/ethnicity (unadjusted model)")
 plot_model(fit_glm_mp2, vline.color = "Blue", title="Forest plot of depression according to race/ethnicity (fully-adjusted model)")

@@ -2,7 +2,7 @@
 title: "NSDUH Final Project"
 author: "Jesse Osmar Najarro"
 date: "2022-12-06"
-output: github_document
+output: html_document
 ---
 #Load in data and packages 
 ```{r}
@@ -120,7 +120,7 @@ simple_model<- train_set|>glm(AMDEYR~NEWRACE2, data=_, family="binomial")
 fit_glm_mp <- train_set |> glm(AMDEYR ~ NEWRACE2 + AGE2 + IRSEX + INCOME + EDUCCAT2 + CIG30USE + ALCDAYS + LIFANXD + LIFDEPRS + LIFDIAB + LIFHBP, data=_, family = "binomial")
 
 #Getting OR 
-simple_model<-exp(coef(simple_model))
+simple_model$coefficients<-exp(simple_model$coefficients)
 
 #Getting OR 
 fit_glm_mp2<- fit_glm_mp
