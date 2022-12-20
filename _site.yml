@@ -1,8 +1,12 @@
-name: "my-website"
+name: "BST 260 Website"
 output_dir: "."
 navbar:
 
-  title: "My Website"
+  title: "Jesse Osmar Najarro"
   left:
-    - text: "Home"
+    - text: "R Code"
       href: index.html
+    - text: "Report"
+      href: finalreport.html
+      
+      
