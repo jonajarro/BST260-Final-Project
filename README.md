@@ -11,4 +11,3 @@ Conclusion:
 References: 
 
 United States Department of Health and Human Services. Substance Abuse and Mental Health Services Administration. Center for Behavioral Health Statistics and Quality. National Survey on Drug Use and Health, 2014. Inter-university Consortium for Political and Social Research [distributor], 2016-03-22. https://doi.org/10.3886/ICPSR36361.v1
-![image](https://user-images.githubusercontent.com/112512832/208700339-1c926397-f493-4313-8e84-5a10a2d2c8b9.png)
