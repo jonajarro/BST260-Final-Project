@@ -1,10 +1,3 @@
-![Picture1](https://user-images.githubusercontent.com/112512832/208701732-0775a4af-84f3-455a-9731-97cfe4f433ac.png)
-![Picture2](https://user-images.githubusercontent.com/112512832/208701734-9424ae6c-1df5-4da5-9fa8-c50d414bc0ea.png)
-![Picture3](https://user-images.githubusercontent.com/112512832/208701738-97c7c707-d826-4b73-90de-c32b2b468c60.png)
-![Picture4](https://user-images.githubusercontent.com/112512832/208701740-0cc78fdc-3b95-4316-b23a-5de8e422994a.png)
-![Picture5](https://user-images.githubusercontent.com/112512832/208701743-c521d60b-ab86-4c98-b855-0656969989e0.png)
-![Picture6](https://user-images.githubusercontent.com/112512832/208701746-a5280cf7-2a28-4d80-953a-52f57f913644.png)
-![Picture7](https://user-images.githubusercontent.com/112512832/208701747-3bd287f1-acd5-45e2-ba6d-ef16dd3877eb.png)
 Introduction: 
 The following project was created using data from the National Survey on Drug Use and Health (NSDUH) (2014), which is a U.S. national survey conducted in all 50 states and the District of Columbia to evaluate substance use and mental health.  The two primary questions under investigation were 1) what is the association between depression in the last year according to race/ethnicity among individuals over 18 years of age in the NSDUH 2014 data set and 2) can we predict depression using selected variables from the dataset. To assess the first question, a logistic regression analysis was used. Logistic regression is best suited for binary outcomes, which in this case was depression in the last year (yes/no), and can handle continuous and categorical predictors. For prediction analyses, k-nearest-neighbors (KNN) and random forest were used. KNN is a machine learning algorithm that finds the k nearest points and takes the average of said points for our estimate of interest. A strength of KNN is that it is rather flexible and therefore can suitably capture the true conditional probability. Random forest is another machine learning algorithm that builds on decision trees by averaging multiple decision trees. As initial data exploration, I produced counts of my dependent and independent variables, recoding several of them (e.g., educational status, age). I also created a bar graph to visualize the count of depression in the last year by race/ethnicity. It is clear that the count of depression is highest among White individuals. This is due to the fact that this a predominantly White sample (60.7%). Lastly, a table 1 has been produced showing basic demographics of the sample by race/ethnicity. 
 
@@ -18,3 +11,12 @@ Conclusion:
 References: 
 
 United States Department of Health and Human Services. Substance Abuse and Mental Health Services Administration. Center for Behavioral Health Statistics and Quality. National Survey on Drug Use and Health, 2014. Inter-university Consortium for Political and Social Research [distributor], 2016-03-22. https://doi.org/10.3886/ICPSR36361.v1
+
+Appendix: 
+![Picture1](https://user-images.githubusercontent.com/112512832/208701732-0775a4af-84f3-455a-9731-97cfe4f433ac.png)
+![Picture2](https://user-images.githubusercontent.com/112512832/208701734-9424ae6c-1df5-4da5-9fa8-c50d414bc0ea.png)
+![Picture3](https://user-images.githubusercontent.com/112512832/208701738-97c7c707-d826-4b73-90de-c32b2b468c60.png)
+![Picture4](https://user-images.githubusercontent.com/112512832/208701740-0cc78fdc-3b95-4316-b23a-5de8e422994a.png)
+![Picture5](https://user-images.githubusercontent.com/112512832/208701743-c521d60b-ab86-4c98-b855-0656969989e0.png)
+![Picture6](https://user-images.githubusercontent.com/112512832/208701746-a5280cf7-2a28-4d80-953a-52f57f913644.png)
+![Picture7](https://user-images.githubusercontent.com/112512832/208701747-3bd287f1-acd5-45e2-ba6d-ef16dd3877eb.png)
