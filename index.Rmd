@@ -1,8 +1,6 @@
 ---
 title: "Home"
 ---
-Hello, Website!
-
 #Load in data and packages 
 ```{r}
 load("/Users/jesse/Downloads/ICPSR_36361/DS0001/36361-0001-Data.rda")
