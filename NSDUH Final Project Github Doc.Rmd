@@ -2,7 +2,7 @@
 title: "NSDUH Final Project"
 author: "Jesse Osmar Najarro"
 date: "2022-12-06"
-output: html_document
+output: github_document
 ---
 #Load in data and packages 
 ```{r}
