@@ -277,7 +277,313 @@ ggplot(data_dummy, aes(x=NEWRACE2, y=AMDEYR)) +geom_bar(stat="identity", fill="r
 library(tableone)
 vars<- c("NEWRACE2", "AGE2", "IRSEX", "INCOME", "EDUCCAT2", "WRKEDYR", "LIFANXD", "LIFDIAB", "LIFHBP")
 tableOne <- CreateTableOne(vars = vars, strata = c("NEWRACE2"), data = data_dummy)
+tableOne
 ```
+
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         (1) NonHisp White
+    ##   n                                                     4982             
+    ##   NEWRACE2 (%)                                                           
+    ##      (1) NonHisp White                                  4982 (100.0)     
+    ##      (2) NonHisp Black/Afr Am                              0 (  0.0)     
+    ##      (3) NonHisp Native Am/AK Native                       0 (  0.0)     
+    ##      (4) NonHisp Native HI/Other Pac Isl                   0 (  0.0)     
+    ##      (5) NonHisp Asian                                     0 (  0.0)     
+    ##      (6) NonHisp more than one race                        0 (  0.0)     
+    ##      (7) Hispanic                                          0 (  0.0)     
+    ##   AGE2 (%)                                                               
+    ##      (1) Respondent is 18 years old                      169 (  3.4)     
+    ##      (2) Respondent is 19 years old                      123 (  2.5)     
+    ##      (3) Respondent is 20 years old                      119 (  2.4)     
+    ##      (4) Respondent is 21 years old                      100 (  2.0)     
+    ##      (5) Respondent is 22 or 23 years old                239 (  4.8)     
+    ##      (6) Respondent is 24 or 25 years old                207 (  4.2)     
+    ##      (7) Respondent is between 26 and 29 years old       233 (  4.7)     
+    ##      (8) Respondent is between 30 and 34 years old       328 (  6.6)     
+    ##      (9) Respondent is between 35 and 49 years old       786 ( 15.8)     
+    ##      (10) Respondent is between 50 and 64 years old      896 ( 18.0)     
+    ##      (11) Respondent is 65 years old or older           1782 ( 35.8)     
+    ##   IRSEX = (2) Female (%)                                3095 ( 62.1)     
+    ##   INCOME (%)                                                             
+    ##      (1) Less than $20,000                              1492 ( 29.9)     
+    ##      (2) $20,000 - $49,999                              1775 ( 35.6)     
+    ##      (3) $50,000 - $74,999                               731 ( 14.7)     
+    ##      (4) $75,000 or More                                 984 ( 19.8)     
+    ##   EDUCCAT2 (%)                                                           
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7)  822 ( 16.5)     
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)   1754 ( 35.2)     
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)        1356 ( 27.2)     
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)      1050 ( 21.1)     
+    ##   WRKEDYR = (2) No (%)                                  3769 ( 75.7)     
+    ##   LIFANXD = (6) Response not entered (%)                3644 ( 73.1)     
+    ##   LIFDIAB = (6) Response not entered (%)                4213 ( 84.6)     
+    ##   LIFHBP = (6) Response not entered (%)                 3009 ( 60.4)     
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         (2) NonHisp Black/Afr Am
+    ##   n                                                     986                     
+    ##   NEWRACE2 (%)                                                                  
+    ##      (1) NonHisp White                                    0 (  0.0)             
+    ##      (2) NonHisp Black/Afr Am                           986 (100.0)             
+    ##      (3) NonHisp Native Am/AK Native                      0 (  0.0)             
+    ##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)             
+    ##      (5) NonHisp Asian                                    0 (  0.0)             
+    ##      (6) NonHisp more than one race                       0 (  0.0)             
+    ##      (7) Hispanic                                         0 (  0.0)             
+    ##   AGE2 (%)                                                                      
+    ##      (1) Respondent is 18 years old                      55 (  5.6)             
+    ##      (2) Respondent is 19 years old                      37 (  3.8)             
+    ##      (3) Respondent is 20 years old                      31 (  3.1)             
+    ##      (4) Respondent is 21 years old                      25 (  2.5)             
+    ##      (5) Respondent is 22 or 23 years old                69 (  7.0)             
+    ##      (6) Respondent is 24 or 25 years old                50 (  5.1)             
+    ##      (7) Respondent is between 26 and 29 years old       52 (  5.3)             
+    ##      (8) Respondent is between 30 and 34 years old       67 (  6.8)             
+    ##      (9) Respondent is between 35 and 49 years old      205 ( 20.8)             
+    ##      (10) Respondent is between 50 and 64 years old     198 ( 20.1)             
+    ##      (11) Respondent is 65 years old or older           197 ( 20.0)             
+    ##   IRSEX = (2) Female (%)                                631 ( 64.0)             
+    ##   INCOME (%)                                                                    
+    ##      (1) Less than $20,000                              561 ( 56.9)             
+    ##      (2) $20,000 - $49,999                              295 ( 29.9)             
+    ##      (3) $50,000 - $74,999                               76 (  7.7)             
+    ##      (4) $75,000 or More                                 54 (  5.5)             
+    ##   EDUCCAT2 (%)                                                                  
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7) 262 ( 26.6)             
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)   401 ( 40.7)             
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)        232 ( 23.5)             
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)       91 (  9.2)             
+    ##   WRKEDYR = (2) No (%)                                  712 ( 72.2)             
+    ##   LIFANXD = (6) Response not entered (%)                866 ( 87.8)             
+    ##   LIFDIAB = (6) Response not entered (%)                797 ( 80.8)             
+    ##   LIFHBP = (6) Response not entered (%)                 561 ( 56.9)             
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         (3) NonHisp Native Am/AK Native
+    ##   n                                                     159                            
+    ##   NEWRACE2 (%)                                                                         
+    ##      (1) NonHisp White                                    0 (  0.0)                    
+    ##      (2) NonHisp Black/Afr Am                             0 (  0.0)                    
+    ##      (3) NonHisp Native Am/AK Native                    159 (100.0)                    
+    ##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)                    
+    ##      (5) NonHisp Asian                                    0 (  0.0)                    
+    ##      (6) NonHisp more than one race                       0 (  0.0)                    
+    ##      (7) Hispanic                                         0 (  0.0)                    
+    ##   AGE2 (%)                                                                             
+    ##      (1) Respondent is 18 years old                       4 (  2.5)                    
+    ##      (2) Respondent is 19 years old                       7 (  4.4)                    
+    ##      (3) Respondent is 20 years old                      12 (  7.5)                    
+    ##      (4) Respondent is 21 years old                       7 (  4.4)                    
+    ##      (5) Respondent is 22 or 23 years old                 9 (  5.7)                    
+    ##      (6) Respondent is 24 or 25 years old                 7 (  4.4)                    
+    ##      (7) Respondent is between 26 and 29 years old       10 (  6.3)                    
+    ##      (8) Respondent is between 30 and 34 years old       14 (  8.8)                    
+    ##      (9) Respondent is between 35 and 49 years old       37 ( 23.3)                    
+    ##      (10) Respondent is between 50 and 64 years old      32 ( 20.1)                    
+    ##      (11) Respondent is 65 years old or older            20 ( 12.6)                    
+    ##   IRSEX = (2) Female (%)                                 91 ( 57.2)                    
+    ##   INCOME (%)                                                                           
+    ##      (1) Less than $20,000                               83 ( 52.2)                    
+    ##      (2) $20,000 - $49,999                               54 ( 34.0)                    
+    ##      (3) $50,000 - $74,999                               12 (  7.5)                    
+    ##      (4) $75,000 or More                                 10 (  6.3)                    
+    ##   EDUCCAT2 (%)                                                                         
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7)  54 ( 34.0)                    
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)    63 ( 39.6)                    
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)         36 ( 22.6)                    
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)        6 (  3.8)                    
+    ##   WRKEDYR = (2) No (%)                                  112 ( 70.4)                    
+    ##   LIFANXD = (6) Response not entered (%)                129 ( 81.1)                    
+    ##   LIFDIAB = (6) Response not entered (%)                122 ( 76.7)                    
+    ##   LIFHBP = (6) Response not entered (%)                  96 ( 60.4)                    
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         (4) NonHisp Native HI/Other Pac Isl
+    ##   n                                                     22                                 
+    ##   NEWRACE2 (%)                                                                             
+    ##      (1) NonHisp White                                   0 (  0.0)                         
+    ##      (2) NonHisp Black/Afr Am                            0 (  0.0)                         
+    ##      (3) NonHisp Native Am/AK Native                     0 (  0.0)                         
+    ##      (4) NonHisp Native HI/Other Pac Isl                22 (100.0)                         
+    ##      (5) NonHisp Asian                                   0 (  0.0)                         
+    ##      (6) NonHisp more than one race                      0 (  0.0)                         
+    ##      (7) Hispanic                                        0 (  0.0)                         
+    ##   AGE2 (%)                                                                                 
+    ##      (1) Respondent is 18 years old                      0 (  0.0)                         
+    ##      (2) Respondent is 19 years old                      0 (  0.0)                         
+    ##      (3) Respondent is 20 years old                      1 (  4.5)                         
+    ##      (4) Respondent is 21 years old                      2 (  9.1)                         
+    ##      (5) Respondent is 22 or 23 years old                1 (  4.5)                         
+    ##      (6) Respondent is 24 or 25 years old                0 (  0.0)                         
+    ##      (7) Respondent is between 26 and 29 years old       3 ( 13.6)                         
+    ##      (8) Respondent is between 30 and 34 years old       2 (  9.1)                         
+    ##      (9) Respondent is between 35 and 49 years old       5 ( 22.7)                         
+    ##      (10) Respondent is between 50 and 64 years old      4 ( 18.2)                         
+    ##      (11) Respondent is 65 years old or older            4 ( 18.2)                         
+    ##   IRSEX = (2) Female (%)                                12 ( 54.5)                         
+    ##   INCOME (%)                                                                               
+    ##      (1) Less than $20,000                              10 ( 45.5)                         
+    ##      (2) $20,000 - $49,999                               6 ( 27.3)                         
+    ##      (3) $50,000 - $74,999                               0 (  0.0)                         
+    ##      (4) $75,000 or More                                 6 ( 27.3)                         
+    ##   EDUCCAT2 (%)                                                                             
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7)  9 ( 40.9)                         
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)    9 ( 40.9)                         
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)         3 ( 13.6)                         
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)       1 (  4.5)                         
+    ##   WRKEDYR = (2) No (%)                                  17 ( 77.3)                         
+    ##   LIFANXD = (6) Response not entered (%)                20 ( 90.9)                         
+    ##   LIFDIAB = (6) Response not entered (%)                19 ( 86.4)                         
+    ##   LIFHBP = (6) Response not entered (%)                 12 ( 54.5)                         
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         (5) NonHisp Asian
+    ##   n                                                     162              
+    ##   NEWRACE2 (%)                                                           
+    ##      (1) NonHisp White                                    0 (  0.0)      
+    ##      (2) NonHisp Black/Afr Am                             0 (  0.0)      
+    ##      (3) NonHisp Native Am/AK Native                      0 (  0.0)      
+    ##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)      
+    ##      (5) NonHisp Asian                                  162 (100.0)      
+    ##      (6) NonHisp more than one race                       0 (  0.0)      
+    ##      (7) Hispanic                                         0 (  0.0)      
+    ##   AGE2 (%)                                                               
+    ##      (1) Respondent is 18 years old                       9 (  5.6)      
+    ##      (2) Respondent is 19 years old                       8 (  4.9)      
+    ##      (3) Respondent is 20 years old                      11 (  6.8)      
+    ##      (4) Respondent is 21 years old                       7 (  4.3)      
+    ##      (5) Respondent is 22 or 23 years old                10 (  6.2)      
+    ##      (6) Respondent is 24 or 25 years old                 7 (  4.3)      
+    ##      (7) Respondent is between 26 and 29 years old       11 (  6.8)      
+    ##      (8) Respondent is between 30 and 34 years old       12 (  7.4)      
+    ##      (9) Respondent is between 35 and 49 years old       17 ( 10.5)      
+    ##      (10) Respondent is between 50 and 64 years old      15 (  9.3)      
+    ##      (11) Respondent is 65 years old or older            55 ( 34.0)      
+    ##   IRSEX = (2) Female (%)                                103 ( 63.6)      
+    ##   INCOME (%)                                                             
+    ##      (1) Less than $20,000                               53 ( 32.7)      
+    ##      (2) $20,000 - $49,999                               35 ( 21.6)      
+    ##      (3) $50,000 - $74,999                               25 ( 15.4)      
+    ##      (4) $75,000 or More                                 49 ( 30.2)      
+    ##   EDUCCAT2 (%)                                                           
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7)  18 ( 11.1)      
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)    35 ( 21.6)      
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)         52 ( 32.1)      
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)       57 ( 35.2)      
+    ##   WRKEDYR = (2) No (%)                                  118 ( 72.8)      
+    ##   LIFANXD = (6) Response not entered (%)                143 ( 88.3)      
+    ##   LIFDIAB = (6) Response not entered (%)                130 ( 80.2)      
+    ##   LIFHBP = (6) Response not entered (%)                 109 ( 67.3)      
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         (6) NonHisp more than one race
+    ##   n                                                     280                           
+    ##   NEWRACE2 (%)                                                                        
+    ##      (1) NonHisp White                                    0 (  0.0)                   
+    ##      (2) NonHisp Black/Afr Am                             0 (  0.0)                   
+    ##      (3) NonHisp Native Am/AK Native                      0 (  0.0)                   
+    ##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)                   
+    ##      (5) NonHisp Asian                                    0 (  0.0)                   
+    ##      (6) NonHisp more than one race                     280 (100.0)                   
+    ##      (7) Hispanic                                         0 (  0.0)                   
+    ##   AGE2 (%)                                                                            
+    ##      (1) Respondent is 18 years old                      18 (  6.4)                   
+    ##      (2) Respondent is 19 years old                       9 (  3.2)                   
+    ##      (3) Respondent is 20 years old                      20 (  7.1)                   
+    ##      (4) Respondent is 21 years old                       8 (  2.9)                   
+    ##      (5) Respondent is 22 or 23 years old                22 (  7.9)                   
+    ##      (6) Respondent is 24 or 25 years old                14 (  5.0)                   
+    ##      (7) Respondent is between 26 and 29 years old       16 (  5.7)                   
+    ##      (8) Respondent is between 30 and 34 years old       18 (  6.4)                   
+    ##      (9) Respondent is between 35 and 49 years old       56 ( 20.0)                   
+    ##      (10) Respondent is between 50 and 64 years old      50 ( 17.9)                   
+    ##      (11) Respondent is 65 years old or older            49 ( 17.5)                   
+    ##   IRSEX = (2) Female (%)                                175 ( 62.5)                   
+    ##   INCOME (%)                                                                          
+    ##      (1) Less than $20,000                              117 ( 41.8)                   
+    ##      (2) $20,000 - $49,999                               93 ( 33.2)                   
+    ##      (3) $50,000 - $74,999                               28 ( 10.0)                   
+    ##      (4) $75,000 or More                                 42 ( 15.0)                   
+    ##   EDUCCAT2 (%)                                                                        
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7)  76 ( 27.1)                   
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)    85 ( 30.4)                   
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)         82 ( 29.3)                   
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)       37 ( 13.2)                   
+    ##   WRKEDYR = (2) No (%)                                  195 ( 69.6)                   
+    ##   LIFANXD = (6) Response not entered (%)                199 ( 71.1)                   
+    ##   LIFDIAB = (6) Response not entered (%)                233 ( 83.2)                   
+    ##   LIFHBP = (6) Response not entered (%)                 187 ( 66.8)                   
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         (7) Hispanic p     
+    ##   n                                                     898                
+    ##   NEWRACE2 (%)                                                       <0.001
+    ##      (1) NonHisp White                                    0 (  0.0)        
+    ##      (2) NonHisp Black/Afr Am                             0 (  0.0)        
+    ##      (3) NonHisp Native Am/AK Native                      0 (  0.0)        
+    ##      (4) NonHisp Native HI/Other Pac Isl                  0 (  0.0)        
+    ##      (5) NonHisp Asian                                    0 (  0.0)        
+    ##      (6) NonHisp more than one race                       0 (  0.0)        
+    ##      (7) Hispanic                                       898 (100.0)        
+    ##   AGE2 (%)                                                           <0.001
+    ##      (1) Respondent is 18 years old                      64 (  7.1)        
+    ##      (2) Respondent is 19 years old                      47 (  5.2)        
+    ##      (3) Respondent is 20 years old                      51 (  5.7)        
+    ##      (4) Respondent is 21 years old                      30 (  3.3)        
+    ##      (5) Respondent is 22 or 23 years old                62 (  6.9)        
+    ##      (6) Respondent is 24 or 25 years old                56 (  6.2)        
+    ##      (7) Respondent is between 26 and 29 years old       49 (  5.5)        
+    ##      (8) Respondent is between 30 and 34 years old       73 (  8.1)        
+    ##      (9) Respondent is between 35 and 49 years old      177 ( 19.7)        
+    ##      (10) Respondent is between 50 and 64 years old     139 ( 15.5)        
+    ##      (11) Respondent is 65 years old or older           150 ( 16.7)        
+    ##   IRSEX = (2) Female (%)                                588 ( 65.5)   0.312
+    ##   INCOME (%)                                                         <0.001
+    ##      (1) Less than $20,000                              402 ( 44.8)        
+    ##      (2) $20,000 - $49,999                              317 ( 35.3)        
+    ##      (3) $50,000 - $74,999                               84 (  9.4)        
+    ##      (4) $75,000 or More                                 95 ( 10.6)        
+    ##   EDUCCAT2 (%)                                                       <0.001
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7) 308 ( 34.3)        
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)   312 ( 34.7)        
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)        211 ( 23.5)        
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)       67 (  7.5)        
+    ##   WRKEDYR = (2) No (%)                                  640 ( 71.3)   0.014
+    ##   LIFANXD = (6) Response not entered (%)                714 ( 79.5)  <0.001
+    ##   LIFDIAB = (6) Response not entered (%)                708 ( 78.8)  <0.001
+    ##   LIFHBP = (6) Response not entered (%)                 670 ( 74.6)  <0.001
+    ##                                                        Stratified by NEWRACE2
+    ##                                                         test
+    ##   n                                                         
+    ##   NEWRACE2 (%)                                              
+    ##      (1) NonHisp White                                      
+    ##      (2) NonHisp Black/Afr Am                               
+    ##      (3) NonHisp Native Am/AK Native                        
+    ##      (4) NonHisp Native HI/Other Pac Isl                    
+    ##      (5) NonHisp Asian                                      
+    ##      (6) NonHisp more than one race                         
+    ##      (7) Hispanic                                           
+    ##   AGE2 (%)                                                  
+    ##      (1) Respondent is 18 years old                         
+    ##      (2) Respondent is 19 years old                         
+    ##      (3) Respondent is 20 years old                         
+    ##      (4) Respondent is 21 years old                         
+    ##      (5) Respondent is 22 or 23 years old                   
+    ##      (6) Respondent is 24 or 25 years old                   
+    ##      (7) Respondent is between 26 and 29 years old          
+    ##      (8) Respondent is between 30 and 34 years old          
+    ##      (9) Respondent is between 35 and 49 years old          
+    ##      (10) Respondent is between 50 and 64 years old         
+    ##      (11) Respondent is 65 years old or older               
+    ##   IRSEX = (2) Female (%)                                    
+    ##   INCOME (%)                                                
+    ##      (1) Less than $20,000                                  
+    ##      (2) $20,000 - $49,999                                  
+    ##      (3) $50,000 - $74,999                                  
+    ##      (4) $75,000 or More                                    
+    ##   EDUCCAT2 (%)                                              
+    ##      (1) Less than high school (IREDUC2<=7 and AGE2>=7)     
+    ##      (2) High school graduate (IREDUC2=8 and AGE2>=7)       
+    ##      (3) Some college (IREDUC2=9-10 and AGE2>=7)            
+    ##      (4) College graduate (IREDUC2=11 and AGE2>=7)          
+    ##   WRKEDYR = (2) No (%)                                      
+    ##   LIFANXD = (6) Response not entered (%)                    
+    ##   LIFDIAB = (6) Response not entered (%)                    
+    ##   LIFHBP = (6) Response not entered (%)
 
 ``` r
 #Create data partition 
