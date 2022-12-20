@@ -1,0 +1,271 @@
+---
+title: "Home"
+---
+Hello, Website!
+
+---
+title: "NSDUH Final Project"
+author: "Jesse Osmar Najarro"
+date: "2022-12-06"
+output: html_document
+---
+#Load in data and packages 
+```{r}
+load("/Users/jesse/Downloads/ICPSR_36361/DS0001/36361-0001-Data.rda")
+library(tidyverse)
+library(dslabs)
+library(caret)
+```
+
+#Exploring data
+```{r}
+data<- da36361.0001
+
+#Exploring outcome var 
+unique(data$AMDEYR)
+#Need to make sure its a factor for regression and classification
+levels(data$AMDEYR) 
+summary(data$AMDEYR)
+
+#Renaming outcome var 
+levels(data$AMDEYR) <- c("Yes", "No")
+
+#Checking it went through
+summary(data$AMDEYR)
+
+#Checking our independent variable
+class(data$NEWRACE2)
+levels(data$NEWRACE2)
+summary(data$NEWRACE2)
+```
+
+
+```{r}
+#Preprocessing 
+
+#Drop AGE<18 categories
+`%notin%` <- Negate(`%in%`)
+data_prac <- data[data$AGE2 %notin% c("(01) Respondent is 12 years old", "(02) Respondent is 13 years old", "(03) Respondent is 14 years old", "(04) Respondent is 15 years old", "(05) Respondent is 16 years old", "(06) Respondent is 17 years old"), ]
+
+data_prac <- data[data$EDUCCAT2 %notin% c("(5) 12 to 17 year olds (AGE2<=6)"), ]
+
+#Checking it all went through
+data_prac$AGE2 <- factor(data_prac$AGE2)
+levels(data_prac$AGE2)
+
+data_prac$EDUCCAT2 <- factor(data_prac$EDUCCAT2)
+levels(data_prac$EDUCCAT2)
+
+#Refactoring levels of AGE
+library(plyr)
+data_prac$AGE2 <- revalue(data_prac$AGE2, c("(07) Respondent is 18 years old" = "(1) Respondent is 18 years old", '(08) Respondent is 19 years old' = '(2) Respondent is 19 years old', '(09) Respondent is 20 years old' = '(3) Respondent is 20 years old', '(10) Respondent is 21 years old'='(4) Respondent is 21 years old', '(11) Respondent is 22 or 23 years old'='(5) Respondent is 22 or 23 years old', '(12) Respondent is 24 or 25 years old'='(6) Respondent is 24 or 25 years old', '(13) Respondent is between 26 and 29 years old'='(7) Respondent is between 26 and 29 years old', '(14) Respondent is between 30 and 34 years old' = '(8) Respondent is between 30 and 34 years old', '(15) Respondent is between 35 and 49 years old'= '(9) Respondent is between 35 and 49 years old', '(16) Respondent is between 50 and 64 years old'='(10) Respondent is between 50 and 64 years old', '(17) Respondent is 65 years old or older'= '(11) Respondent is 65 years old or older'))
+
+#Checking it went through
+levels(data_prac$AGE2)
+
+
+#Making dummy variables out of the predictors 
+predictors <- data_prac|> select(AGE2, IRSEX, INCOME, EDUCCAT2, WRKEDYR, ALCDAYS, CIG30USE, LIFANXD, LIFDIAB, LIFHBP)
+
+#Find class of all predictors
+sapply(predictors, class)
+
+#Data frame of factor predictors 
+predictors_factors<- data_prac|> select(NEWRACE2, AGE2, IRSEX, INCOME, EDUCCAT2, WRKEDYR, LIFANXD, LIFDIAB, LIFHBP)
+
+#Levels of factor predictors 
+sapply(predictors_factors, levels)
+
+#Transform factor predictors to categorical 
+library(fastDummies)
+data_dummy<- data_prac
+
+data_dummy<- data_dummy[!is.na(data_dummy$AMDEYR),]
+data_dummy<- data_dummy[!is.na(data_dummy$NEWRACE2),]
+
+data_dummy<- data_dummy[!is.na(data_dummy$AGE2),]
+
+data_dummy<- data_dummy[!is.na(data_dummy$IRSEX),]
+data_dummy<- data_dummy[!is.na(data_dummy$INCOME),]
+data_dummy<- data_dummy[!is.na(data_dummy$EDUCCAT2),]
+data_dummy<- data_dummy[!is.na(data_dummy$WRKEDYR),]
+data_dummy<- data_dummy[!is.na(data_dummy$LIFANXD),]
+data_dummy<- data_dummy[!is.na(data_dummy$LIFHBP),]
+
+data_dummy<- dummy_cols(data_dummy, select_columns= c("NEWRACE2", "AGE2", "IRSEX", "INCOME", "EDUCCAT2", "WRKEDYR", "LIFANXD", "LIFDIAB", "LIFHBP"),ignore_na=TRUE)
+
+#Barplot 
+library(ggplot2)
+ggplot(data_dummy, aes(x=NEWRACE2, y=AMDEYR)) +geom_bar(stat="identity", fill="red") + ggtitle("Bar plot of depression by race/ethnicity")+ theme(axis.text.x = element_text(angle = 25, vjust = 0.8, hjust=1))+ylab("Depression Count") + theme(axis.title.x = element_text(hjust=1)) +  theme(axis.text.y=element_blank()) 
+```
+
+```{r}
+#Table 1 
+library(tableone)
+vars<- c("NEWRACE2", "AGE2", "IRSEX", "INCOME", "EDUCCAT2", "WRKEDYR", "LIFANXD", "LIFDIAB", "LIFHBP")
+tableOne <- CreateTableOne(vars = vars, strata = c("NEWRACE2"), data = data_dummy)
+tableOne
+```
+
+
+```{r}
+#Create data partition 
+set.seed(1990)
+y<- data_dummy$AMDEYR
+test_index <- createDataPartition(y, times = 1, p = 0.8, list = FALSE)
+train_set <- data_dummy |> slice(test_index)
+test_set <- data_dummy |> slice(-test_index)
+```
+
+
+```{r}
+#Training simple logistic regression model based on race/ethnicity alone 
+simple_model<- train_set|>glm(AMDEYR~NEWRACE2, data=_, family="binomial")
+
+#Training simple logisic regression model based on multiple predictors
+fit_glm_mp <- train_set |> glm(AMDEYR ~ NEWRACE2 + AGE2 + IRSEX + INCOME + EDUCCAT2 + CIG30USE + ALCDAYS + LIFANXD + LIFDEPRS + LIFDIAB + LIFHBP, data=_, family = "binomial")
+
+#Getting OR 
+simple_model$coefficients<-exp(simple_model$coefficients)
+
+#Getting OR 
+fit_glm_mp2<- fit_glm_mp
+fit_glm_mp2$coefficients<- exp((fit_glm_mp$coefficients[2:7]))
+```
+
+```{r, eval=FALSE}
+#Training simple logistic regression model based on dummy race variables 
+simple_model2<- train_set|>glm(AMDEYR~`NEWRACE2_(1) NonHisp White`+`NEWRACE2_(2) NonHisp Black/Afr Am`+`NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`, data=_, family="binomial")
+
+#Getting OR 
+exp(coef(simple_model2))
+
+
+fit_glm_mpd <- train_set |> glm(AMDEYR ~ `NEWRACE2_(1) NonHisp White` + `NEWRACE2_(2) NonHisp Black/Afr Am`+ `NEWRACE2_(3) NonHisp Native Am/AK Native`+`NEWRACE2_(4) NonHisp Native HI/Other Pac Isl`+`NEWRACE2_(5) NonHisp Asian`+`NEWRACE2_(6) NonHisp more than one race`+`NEWRACE2_(7) Hispanic`+ `AGE2_(1) Respondent is 18 years old`+ `AGE2_(2) Respondent is 19 years old`+`AGE2_(3) Respondent is 20 years old`+`AGE2_(4) Respondent is 21 years old`+`AGE2_(5) Respondent is 22 or 23 years old`+`AGE2_(6) Respondent is 24 or 25 years old`+`AGE2_(7) Respondent is between 26 and 29 years old`+ `AGE2_(8) Respondent is between 30 and 34 years old`+`AGE2_(9) Respondent is between 35 and 49 years old`+ `AGE2_(10) Respondent is between 50 and 64 years old`+ `AGE2_(11) Respondent is 65 years old or older`+ IRSEX+ `INCOME_(1) Less than $20,000`+`INCOME_(2) $20,000 - $49,999`+`INCOME_(3) $50,000 - $74,999`+`INCOME_(4) $75,000 or More`+`EDUCCAT2_(1) Less than high school (IREDUC2<=7 and AGE2>=7)`+`EDUCCAT2_(2) High school graduate (IREDUC2=8 and AGE2>=7)`+`EDUCCAT2_(3) Some college (IREDUC2=9-10 and AGE2>=7)`+`EDUCCAT2_(4) College graduate (IREDUC2=11 and AGE2>=7)`+ CIG30USE+ALCDAYS+LIFANXD+ LIFDEPRS+LIFHBP+WRKEDYR, data=_, family="binomial")
+
+#Getting OR 
+exp(coef(fit_glm_mpd))
+                                
+```
+
+```{r}
+library(sjPlot)
+plot_model(simple_model, vline.color = "Blue", title="Forest plot of depression according to race/ethnicity (unadjusted model)")
+plot_model(fit_glm_mp2, vline.color = "Blue", title="Forest plot of depression according to race/ethnicity (fully-adjusted model)")
+```
+```{r}
+#Predicting simple model 
+p_hat_logit <- predict(simple_model, newdata = test_set, type = "response")
+head(p_hat_logit)
+
+pre1<-ifelse(p_hat_logit > 0.9152, "Yes", "No") |> factor()
+confusionMatrix(pre1, test_set$AMDEYR)$overall[["Accuracy"]]
+confusionMatrix(pre1, test_set$AMDEYR)
+
+#Predicting multiple predictor model 
+p_hat_glm_mp <- predict(fit_glm_mp, newdata= test_set, type="response")
+head(p_hat_glm_mp)
+
+pre2 <- ifelse(p_hat_glm_mp > 0.9152, "Yes", "No")|> factor()
+confusionMatrix(pre2, test_set$AMDEYR)$overall[["Accuracy"]]
+confusionMatrix(pre2, test_set$AMDEYR)
+```
+
+```{r, eval=FALSE}
+#Creating a ROC and precision recall curve to assess different cut-offs 
+library(pROC)
+pred <- prediction(p_hat_logit, test_set)
+test_roc = roc(test_set$AMDEYR ~ pred, plot = TRUE, print.auc = TRUE)
+
+install.packages("PRROC")
+library(PRROC)
+score1= p_hat_logit[train_set$AMDEYR=="Yes"]
+score0= p_hat_logit[train_set$AMDEYR=="No"]
+roc= roc.curve(score1, score0, curve = T)
+roc$auc
+
+pr= pr.curve(score1, score0, curve = T)
+pr
+plot(pr, main="In-sample PR curve")
+pr.test= pr.curve(score1.test, score0.test, curve = T)
+pr.test
+plot(pr.test, main="Out-of-sample PR curve")
+
+```
+
+#KNN (Predicting depression)
+
+```{r}
+#Pre-processing for knn 
+
+#Removing predictors with 0 variance 
+library(caret)
+nzv <- nearZeroVar(train_set)
+col_index <- setdiff(1:ncol(train_set), nzv)
+length(col_index)
+col_index2<- col_index[c(1769:1795)]
+
+image(matrix(1:3136 %in% nzv, 56, 56))+title(main="Zero Variance Predictors")
+
+
+```
+
+```{r}
+#Performing KNN 
+n <- 1873
+b <- 5
+index <- sample(nrow(train_set), n)
+control <- trainControl(method = "cv", number = b, p = .9)
+train_knn <- train(train_set[index, col_index2], train_set$AMDEYR[index], 
+                   method = "knn", 
+                   tuneGrid = data.frame(k = c(2:15)),
+                   trControl = control)
+
+train_knn
+saveRDS(train_knn, file="train_knn_fp.RDS")
+plot(train_knn, main="Accuracy for number of neighbors tested")
+```
+
+```{r}
+fit_knn <- knn3(train_set[, col_index2], train_set$AMDEYR,  k = 15)
+y_hat_knn <- predict(fit_knn, train_set[, col_index2], type="class")
+cm <- confusionMatrix(y_hat_knn, test_set$AMDEYR[test_index]) 
+cm$overall["Accuracy"]
+cm$byClass
+cm$table
+```
+
+```{r}
+#Perform RF 
+control <- trainControl(method="cv", number = 5)
+grid <- data.frame(mtry = c(1:10))
+
+train_rf <-  train(train_set[, col_index2], train_set$AMDEYR, 
+                   method = "rf", 
+                   ntree = 100,
+                   trControl = control,
+                   tuneGrid = grid,
+                   nSamp = 1000)
+train_rf
+plot(train_rf, main="Accuracy for number of predictors tested ")
+```
+
+```{r}
+library(randomForest)
+fit_rf <- randomForest(train_set[, col_index2], train_set$AMDEYR, 
+                       mtry = train_rf$bestTune$mtry)
+
+y_hat_rf <- predict(fit_rf, train_set[ ,col_index2])
+cm2 <- confusionMatrix(y_hat_rf, test_set$AMDEYR[test_index])
+cm2$overall["Accuracy"]
+cm2$byClass
+cm2$table
+```
+
+```{r}
+imp <- importance(fit_rf)
+mat <- rep(0, ncol(train_set))
+mat[col_index] <- imp
+image(matrix(mat, 50, 50))+title(main="Importance Graph for Random Forest")
+```
+
